@@ -1,301 +1,92 @@
-# AI agents
+# processus-decision
 
-## Project Overview
+## Project Status
 
-This is a modern frontend project template based on React 18, TypeScript, and Vite. It's suitable for building high-performance Single Page Applications (SPA) with integrated modern development toolchain and best practices.
+**Not yet bootstrapped** - Initialize with the commands below before development.
+
+## Quick Commands
+
+```bash
+npm install          # Install dependencies
+npm run dev          # Start dev server (port 3000)
+npm test             # Run Vitest tests
+npm run build        # Production build
+npm run lint         # ESLint check
+npm run format       # Prettier format
+```
 
 ## Tech Stack
 
-- **Frontend Framework**: React 19 + TypeScript
-- **State management**: Zustand
-- **Build Tool**: Vite
+- **Framework**: React 19 + TypeScript
+- **Build**: Vite
+- **State**: Zustand
 - **Routing**: React Router v7
-- **UI Components**: Ant Design
-- **Styling**: Tailwind CSS / Styled-components
-- **HTTP Client**: Axios
-- **Testing Framework**: Vitest + React Testing Library
-- **Code Quality**: ESLint + Prettier + Husky
+- **UI**: Ant Design + Tailwind CSS
+- **HTTP**: Axios
+- **Testing**: Vitest + React Testing Library
+- **Quality**: ESLint + Prettier + Husky
 
 ## Project Structure
 
 ```
-react-project/
-├── public/                # Static assets
-│   ├── favicon.ico
-│   └── index.html
-├── src/
-│   ├── components/        # Reusable components
-│   │   ├── common/        # Common components
-│   │   └── ui/            # UI components
-│   ├── pages/             # Page components
-│   ├── hooks/             # Custom Hooks
-│   ├── store/             # State management
-│   ├── services/          # API services
-│   ├── utils/             # Utility functions
-│   ├── types/             # TypeScript type definitions
-│   ├── styles/            # Global styles
-│   ├── constants/         # Constants
-│   ├── App.tsx
-│   └── main.tsx
-├── specs/                 # Specification files
-├── tests/                 # Test files
-├── docs/                  # Project documentation
-├── .env.example           # Environment variables example
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-└── README.md
+src/
+├── components/
+│   ├── common/        # Shared components (Button, Modal, etc.)
+│   └── ui/            # Domain-specific UI components
+├── pages/             # Route page components
+├── hooks/             # Custom React hooks
+├── store/             # Zustand stores
+├── services/          # API services (axios)
+├── types/             # Shared TypeScript definitions
+├── utils/             # Helper functions
+├── constants/         # App constants
+└── styles/            # Global styles
+specs/                 # Feature specifications
+tests/                 # Test files (mirror src/ structure)
 ```
 
-## Development Guidelines
+## Code Conventions
 
-### Component Development Standards
+### Components
+- Use function components with hooks (no class components)
+- Define `interface Props` for all component props
+- PascalCase for components, file name matches component name
+- One component per file, single responsibility
 
-1. **Function Components First**: Use function components and Hooks
-2. **TypeScript Types**: Define interfaces for all props
-3. **Component Naming**: Use PascalCase, file name matches component name
-4. **Single Responsibility**: Each component handles only one functionality
-
-```tsx
-// Example: Button Component
-interface ButtonProps {
-  variant: 'primary' | 'secondary' | 'danger';
-  size?: 'small' | 'medium' | 'large';
-  disabled?: boolean;
-  onClick?: () => void;
-  children: React.ReactNode;
+### State Management (Zustand)
+```typescript
+// store/useExampleStore.ts
+interface ExampleState {
+  data: Data | null;
+  setData: (data: Data) => void;
 }
 
-export const Button: React.FC<ButtonProps> = ({
-  variant,
-  size = 'medium',
-  disabled = false,
-  onClick,
-  children
-}) => {
-  return (
-    <button
-      className={`btn btn-${variant} btn-${size}`}
-      disabled={disabled}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  );
-};
-```
-
-### State Management Standards
-
-Using Zustand for state management:
-
-```tsx
-// store/userStore.ts
-import { create } from 'zustand';
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
-interface UserState {
-  user: User | null;
-  isLoading: boolean;
-  setUser: (user: User) => void;
-  clearUser: () => void;
-  setLoading: (loading: boolean) => void;
-}
-
-export const useUserStore = create<UserState>((set) => ({
-  user: null,
-  isLoading: false,
-  setUser: (user) => set({ user }),
-  clearUser: () => set({ user: null }),
-  setLoading: (isLoading) => set({ isLoading }),
+export const useExampleStore = create<ExampleState>((set) => ({
+  data: null,
+  setData: (data) => set({ data }),
 }));
 ```
 
-### API Service Standards
+### API Services
+- All API calls go through `services/api.ts`
+- Use axios interceptors for auth headers and error handling
+- Type all request/response payloads
 
-```tsx
-// services/api.ts
-import axios from 'axios';
+### Testing
+- Test files: `ComponentName.test.tsx` in `tests/` mirroring `src/`
+- Use `vi.fn()` for mocks
+- Prefer `screen.getByRole()` over `getByTestId()`
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  timeout: 10000,
-});
+## Environment Variables
 
-// Request interceptor
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+Prefix with `VITE_` for client-side access:
 
-// Response interceptor
-api.interceptors.response.use(
-  (response) => response.data,
-  (error) => {
-    console.error('API Error:', error);
-    return Promise.reject(error);
-  }
-);
-
-export default api;
-```
-
-## Environment Setup
-
-### Development Requirements
-- Node.js >= 25.4.0
-- npm >= 11.7.0 or yarn >= 3.8.7
-
-### Installation Steps
-
-> TODO
-
-### Environment Variables Configuration
 ```env
-# .env.local
 VITE_API_URL=http://localhost:3001/api
-VITE_APP_TITLE=My React App
-VITE_ENABLE_MOCK=false
+VITE_APP_TITLE=Processus Decision
 ```
 
-## Routing Configuration
+## Development Requirements
 
-```tsx
-// App.tsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { HomePage } from './pages/HomePage';
-import { AboutPage } from './pages/AboutPage';
-import { NotFoundPage } from './pages/NotFoundPage';
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-
-export default App;
-```
-
-## Testing Strategy
-
-### Unit Testing Example
-```tsx
-// tests/components/Button.test.tsx
-import { render, screen, fireEvent } from '@testing-library/react';
-import { Button } from '../src/components/Button';
-
-describe('Button Component', () => {
-  test('renders button with text', () => {
-    render(<Button variant="primary">Click me</Button>);
-    expect(screen.getByText('Click me')).toBeInTheDocument();
-  });
-
-  test('calls onClick when clicked', () => {
-    const handleClick = vi.fn();
-    render(
-      <Button variant="primary" onClick={handleClick}>
-        Click me
-      </Button>
-    );
-    
-    fireEvent.click(screen.getByText('Click me'));
-    expect(handleClick).toHaveBeenCalledTimes(1);
-  });
-});
-```
-
-## Performance Optimization
-
-### Code Splitting
-```tsx
-import { lazy, Suspense } from 'react';
-
-const LazyComponent = lazy(() => import('./LazyComponent'));
-
-function App() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LazyComponent />
-    </Suspense>
-  );
-}
-```
-
-### Memory Optimization
-```tsx
-import { memo, useMemo, useCallback } from 'react';
-
-const ExpensiveComponent = memo(({ data, onUpdate }) => {
-  const processedData = useMemo(() => {
-    return data.map(item => ({ ...item, processed: true }));
-  }, [data]);
-
-  const handleUpdate = useCallback((id) => {
-    onUpdate(id);
-  }, [onUpdate]);
-
-  return (
-    <div>
-      {processedData.map(item => (
-        <div key={item.id} onClick={() => handleUpdate(item.id)}>
-          {item.name}
-        </div>
-      ))}
-    </div>
-  );
-});
-```
-
-## Deployment Configuration
-
-### Build Production Version
-```bash
-npm run build
-```
-
-### Vite Configuration Optimization
-```ts
-// vite.config.ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-        },
-      },
-    },
-  },
-  server: {
-    port: 3000,
-    open: true,
-  },
-});
-```
-
-## Reference Resources
-
-- [React Official Documentation](https://react.dev/)
-- [Vite Official Documentation](https://vitejs.dev/)
-- [TypeScript Official Documentation](https://www.typescriptlang.org/)
-- [React Router Documentation](https://reactrouter.com/)
-- [Zustand Documentation](https://github.com/pmndrs/zustand)
+- Node.js >= 22.0.0
+- npm >= 10.0.0
