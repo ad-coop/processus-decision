@@ -18,16 +18,23 @@ npm run format:check # Check formatting (CI)
 
 ## Tech Stack
 
+### Current
+
 - **Framework**: React 19 + TypeScript
 - **Build**: Vite
+- **Testing**: Vitest + React Testing Library
+- **Quality**: ESLint + Prettier + Husky
+
+### Planned (not yet installed)
+
 - **State**: Zustand
 - **Routing**: React Router v7
 - **UI**: Ant Design + Tailwind CSS
 - **HTTP**: Axios
-- **Testing**: Vitest + React Testing Library
-- **Quality**: ESLint + Prettier + Husky
 
 ## Project Structure
+
+Target structure - create directories as needed:
 
 ```
 src/
@@ -48,6 +55,13 @@ tests/                 # Test files (mirror src/ structure)
 
 ## Code Conventions
 
+### Mindset
+
+- Mobile-first design approach
+- Support both desktop and mobile views
+- Follow eco-design principles (low resource consumption, accessibility)
+- Accessibility is a first-class citizen
+
 ### Components
 
 - Use function components with hooks (no class components)
@@ -55,7 +69,7 @@ tests/                 # Test files (mirror src/ structure)
 - PascalCase for components, file name matches component name
 - One component per file, single responsibility
 
-### State Management (Zustand)
+### State Management (Zustand) - when installed
 
 ```typescript
 // store/useExampleStore.ts
@@ -70,7 +84,7 @@ export const useExampleStore = create<ExampleState>((set) => ({
 }));
 ```
 
-### API Services
+### API Services - when installed
 
 - All API calls go through `services/api.ts`
 - Use axios interceptors for auth headers and error handling
@@ -95,3 +109,10 @@ VITE_APP_TITLE=Processus Decision
 
 - Node.js >= 22.0.0
 - npm >= 10.0.0
+
+## Deployment
+
+- **Target**: GitHub Pages
+- **Trigger**: Git tags matching `v*`
+- **Base path**: `/processus-decision/`
+- **URL**: `https://<username>.github.io/processus-decision/`
