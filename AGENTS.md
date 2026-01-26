@@ -59,7 +59,7 @@ tests/                 # Test files (mirror src/ structure)
 
 - Mobile-first design approach
 - Support both desktop and mobile views
-- Follow eco-design principles (low resource consumption, accessibility)
+- (important) Follow eco-design principles (low resource consumption, accessibility)
 - (important) Accessibility is a first-class citizen
 
 ### Components
