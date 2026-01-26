@@ -2,7 +2,7 @@
 
 ## Project Status
 
-**Not yet bootstrapped** - Initialize with the commands below before development.
+**Bootstrapped** - Ready for feature development.
 
 ## Quick Commands
 
@@ -13,6 +13,7 @@ npm test             # Run Vitest tests
 npm run build        # Production build
 npm run lint         # ESLint check
 npm run format       # Prettier format
+npm run format:check # Check formatting (CI)
 ```
 
 ## Tech Stack
@@ -48,12 +49,14 @@ tests/                 # Test files (mirror src/ structure)
 ## Code Conventions
 
 ### Components
+
 - Use function components with hooks (no class components)
 - Define `interface Props` for all component props
 - PascalCase for components, file name matches component name
 - One component per file, single responsibility
 
 ### State Management (Zustand)
+
 ```typescript
 // store/useExampleStore.ts
 interface ExampleState {
@@ -68,11 +71,13 @@ export const useExampleStore = create<ExampleState>((set) => ({
 ```
 
 ### API Services
+
 - All API calls go through `services/api.ts`
 - Use axios interceptors for auth headers and error handling
 - Type all request/response payloads
 
 ### Testing
+
 - Test files: `ComponentName.test.tsx` in `tests/` mirroring `src/`
 - Use `vi.fn()` for mocks
 - Prefer `screen.getByRole()` over `getByTestId()`
