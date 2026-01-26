@@ -20,11 +20,11 @@ This is a modern frontend project template based on React 18, TypeScript, and Vi
 
 ```
 react-project/
-├── public/                 # Static assets
+├── public/                # Static assets
 │   ├── favicon.ico
 │   └── index.html
 ├── src/
-│   ├── components/         # Reusable components
+│   ├── components/        # Reusable components
 │   │   ├── common/        # Common components
 │   │   └── ui/            # UI components
 │   ├── pages/             # Page components
@@ -37,9 +37,10 @@ react-project/
 │   ├── constants/         # Constants
 │   ├── App.tsx
 │   └── main.tsx
+├── specs/                 # Specification files
 ├── tests/                 # Test files
 ├── docs/                  # Project documentation
-├── .env.example          # Environment variables example
+├── .env.example           # Environment variables example
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
