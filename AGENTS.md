@@ -118,3 +118,22 @@ VITE_APP_TITLE=Processus Decision
 - **Trigger**: Git tags matching `v*`
 - **Base path**: `/processus-decision/`
 - **URL**: `https://<username>.github.io/processus-decision/`
+
+### Static Assets (important)
+
+Assets in `public/` must use `import.meta.env.BASE_URL` to work with the GitHub Pages subdirectory:
+
+```tsx
+// ✅ Correct - works in dev and production
+<img src={`${import.meta.env.BASE_URL}logo.png`} />
+
+// ❌ Wrong - breaks on GitHub Pages (resolves to domain root)
+<img src="/logo.png" />
+```
+
+Alternatively, import assets directly (Vite handles the path):
+
+```tsx
+import logo from '/logo.png'; // Vite resolves this correctly
+<img src={logo} />;
+```

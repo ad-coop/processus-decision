@@ -52,6 +52,7 @@ Create the form that will select the relevant criteria to choose a decision proc
 - [ ] Page title and intro text as specified
 - [ ] Criteria list with star ratings
 - [ ] Submit button at bottom (disabled state not required)
+- [ ] All star components have the same width (stars are vertically aligned one to another)
 
 ### Star Rating Component
 

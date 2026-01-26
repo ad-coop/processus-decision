@@ -1,11 +1,11 @@
-import './App.css';
+import { Layout } from './components/ui/Layout';
+import { CriteriaForm } from './pages/CriteriaForm';
 
 function App() {
   return (
-    <main>
-      <h1>Processus Decision</h1>
-      <p>Application ready for development.</p>
-    </main>
+    <Layout>
+      <CriteriaForm />
+    </Layout>
   );
 }
 
