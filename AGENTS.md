@@ -61,6 +61,8 @@ tests/                 # Test files (mirror src/ structure)
 - Support both desktop and mobile views
 - (important) Follow eco-design principles (low resource consumption, accessibility)
 - (important) Accessibility is a first-class citizen
+- Support Screen readers
+- Always write unit tests and integration tests
 
 ### Components
 
