@@ -37,9 +37,11 @@ describe('App', () => {
 
   it('renders the external link with correct attributes', () => {
     render(<App />);
-    const link = screen.getByRole('link', { name: /Gouvernance Intégrative/i });
-    expect(link).toHaveAttribute('href', 'https://gouvernanceintegrative.com/');
-    expect(link).toHaveAttribute('target', '_blank');
-    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    const links = screen.getAllByRole('link', { name: /Gouvernance Intégrative/i });
+    expect(links.length).toBeGreaterThanOrEqual(1);
+    const introLink = links[0];
+    expect(introLink).toHaveAttribute('href', 'https://gouvernanceintegrative.com/');
+    expect(introLink).toHaveAttribute('target', '_blank');
+    expect(introLink).toHaveAttribute('rel', 'noopener noreferrer');
   });
 });
