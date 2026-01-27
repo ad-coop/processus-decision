@@ -1,4 +1,4 @@
-import type { CriterionId, DecisionProcess, ProcessValue } from '../data/processes';
+import type { CriterionId, CriterionValue, DecisionProcess, ProcessValue } from '../data/processes';
 
 export interface ScoredProcess {
   name: string;
@@ -33,8 +33,8 @@ export function scoreProcess(process: DecisionProcess, userCriteria: UserCriteri
       continue;
     }
 
-    const processValue = process.criteria[criterionId as CriterionId];
-    totalScore += calculateCriterionScore(userValue, processValue);
+    const criterionValue: CriterionValue = process.criteria[criterionId as CriterionId];
+    totalScore += calculateCriterionScore(userValue, criterionValue.value);
   }
 
   return totalScore;
