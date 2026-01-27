@@ -51,30 +51,28 @@ describe('Results', () => {
       expect(processList).toBeInTheDocument();
 
       const listItems = screen.getAllByRole('listitem');
-      expect(listItems.length).toBeGreaterThanOrEqual(3);
-      expect(listItems.length).toBeLessThanOrEqual(5);
+      expect(listItems.length).toBeGreaterThanOrEqual(1);
     });
 
-    it('displays rank numbers for each process', () => {
+    it('displays rank numbers with percentage for each process', () => {
       renderWithRouter('/results?temps-disponible=3');
 
-      expect(screen.getByLabelText('Rang 1')).toBeInTheDocument();
-      expect(screen.getByLabelText('Rang 2')).toBeInTheDocument();
-      expect(screen.getByLabelText('Rang 3')).toBeInTheDocument();
+      const rankBadges = screen.getAllByLabelText(/Rang \d+, \d+% de correspondance/);
+      expect(rankBadges.length).toBeGreaterThanOrEqual(1);
     });
 
     it('displays process names', () => {
       renderWithRouter('/results?temps-disponible=3');
 
       const processNames = screen.getAllByRole('heading', { level: 2 });
-      expect(processNames.length).toBeGreaterThanOrEqual(3);
+      expect(processNames.length).toBeGreaterThanOrEqual(1);
     });
 
     it('displays "Voir le détail" buttons that are disabled', () => {
       renderWithRouter('/results?temps-disponible=3');
 
       const detailButtons = screen.getAllByRole('button', { name: 'Voir le détail' });
-      expect(detailButtons.length).toBeGreaterThanOrEqual(3);
+      expect(detailButtons.length).toBeGreaterThanOrEqual(1);
 
       detailButtons.forEach((button) => {
         expect(button).toBeDisabled();
@@ -101,6 +99,15 @@ describe('Results', () => {
       renderWithRouter('/results?temps-disponible=3');
 
       expect(screen.getByLabelText('3 étoiles sur 5')).toBeInTheDocument();
+    });
+  });
+
+  describe('threshold filtering', () => {
+    it('shows percentage in rank badges', () => {
+      renderWithRouter('/results?temps-disponible=3');
+
+      const percentageLabels = screen.getAllByText(/%$/);
+      expect(percentageLabels.length).toBeGreaterThanOrEqual(1);
     });
   });
 });

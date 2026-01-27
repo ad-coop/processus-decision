@@ -3,6 +3,7 @@ import type { CriterionId, CriterionValue, DecisionProcess, ProcessValue } from 
 export interface ScoredProcess {
   name: string;
   score: number;
+  percentage: number;
 }
 
 export type UserCriteria = Partial<Record<CriterionId, number>>;
@@ -44,32 +45,64 @@ export function rankProcesses(
   processes: DecisionProcess[],
   userCriteria: UserCriteria
 ): ScoredProcess[] {
+  const criteriaCount = Object.keys(userCriteria).length;
+  const maxPossibleScore = 5 * criteriaCount;
+
   const scoredProcesses = processes
-    .map((process) => ({
-      name: process.name,
-      score: scoreProcess(process, userCriteria),
-    }))
+    .map((process) => {
+      const score = scoreProcess(process, userCriteria);
+      const percentage = maxPossibleScore > 0 ? Math.round((score / maxPossibleScore) * 100) : 0;
+      return {
+        name: process.name,
+        score,
+        percentage,
+      };
+    })
     .sort((a, b) => b.score - a.score);
 
   return scoredProcesses;
 }
 
-export function selectTopProcesses(scoredProcesses: ScoredProcess[]): ScoredProcess[] {
-  if (scoredProcesses.length <= 3) {
-    return scoredProcesses;
+export function filterByThreshold(scoredProcesses: ScoredProcess[]): ScoredProcess[] {
+  if (scoredProcesses.length === 0) {
+    return [];
   }
 
-  const thirdPlaceScore = scoredProcesses[2].score;
+  const countAtOrAbove = (threshold: number) =>
+    scoredProcesses.filter((p) => p.percentage >= threshold).length;
 
-  const result: ScoredProcess[] = [];
-  for (let i = 0; i < scoredProcesses.length && result.length < 5; i++) {
-    const process = scoredProcesses[i];
-    if (i < 3 || process.score === thirdPlaceScore) {
-      result.push(process);
+  const filterAtOrAbove = (threshold: number) =>
+    scoredProcesses.filter((p) => p.percentage >= threshold);
+
+  if (countAtOrAbove(90) >= 1) {
+    return filterAtOrAbove(90);
+  }
+
+  if (countAtOrAbove(80) >= 2) {
+    return filterAtOrAbove(80);
+  }
+
+  if (countAtOrAbove(60) >= 3) {
+    return filterAtOrAbove(60);
+  }
+
+  return scoredProcesses.slice(0, 5);
+}
+
+export function assignRanks(scoredProcesses: ScoredProcess[]): number[] {
+  const ranks: number[] = [];
+  let currentRank = 1;
+
+  for (let i = 0; i < scoredProcesses.length; i++) {
+    if (i === 0) {
+      ranks.push(currentRank);
+    } else if (scoredProcesses[i].percentage === scoredProcesses[i - 1].percentage) {
+      ranks.push(ranks[i - 1]);
     } else {
-      break;
+      currentRank = i + 1;
+      ranks.push(currentRank);
     }
   }
 
-  return result;
+  return ranks;
 }

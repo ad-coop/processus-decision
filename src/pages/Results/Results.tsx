@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { DECISION_PROCESSES } from '../../data/processes';
 import type { CriterionId } from '../../data/processes';
-import { rankProcesses, selectTopProcesses } from '../../utils/scoring';
+import { rankProcesses, filterByThreshold, assignRanks } from '../../utils/scoring';
 import type { UserCriteria } from '../../utils/scoring';
 import './Results.css';
 
@@ -92,10 +92,12 @@ export function Results() {
   }
 
   const rankedProcesses = rankProcesses(DECISION_PROCESSES, userCriteria);
-  const topProcesses = selectTopProcesses(rankedProcesses);
+  const filteredProcesses = filterByThreshold(rankedProcesses);
+  const ranks = assignRanks(filteredProcesses);
 
-  const processesWithDetails = topProcesses.map((scoredProcess) => ({
+  const processesWithDetails = filteredProcesses.map((scoredProcess, index) => ({
     ...scoredProcess,
+    rank: ranks[index],
     process: DECISION_PROCESSES.find((p) => p.name === scoredProcess.name)!,
   }));
 
@@ -116,10 +118,14 @@ export function Results() {
       </div>
 
       <ol className="results__list" aria-label="Liste des processus recommandés">
-        {processesWithDetails.map(({ name, process }, index) => (
+        {processesWithDetails.map(({ name, percentage, rank, process }) => (
           <li key={name} className="results__item">
-            <div className="results__rank" aria-label={`Rang ${index + 1}`}>
-              {index + 1}
+            <div
+              className="results__rank"
+              aria-label={`Rang ${rank}, ${percentage}% de correspondance`}
+            >
+              <span className="results__rank-number">{rank}</span>
+              <span className="results__rank-percentage">{percentage}%</span>
             </div>
             <div className="results__content">
               <div className="results__header">

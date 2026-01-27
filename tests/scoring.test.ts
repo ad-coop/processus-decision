@@ -2,7 +2,8 @@ import { describe, it, expect } from 'vitest';
 import {
   scoreProcess,
   rankProcesses,
-  selectTopProcesses,
+  filterByThreshold,
+  assignRanks,
   ScoredProcess,
 } from '../src/utils/scoring';
 import { DecisionProcess } from '../src/data/processes';
@@ -156,71 +157,210 @@ describe('rankProcesses', () => {
     expect(ranked[0].name).toBe('Process A');
     expect(ranked[0].score).toBe(5);
   });
+
+  describe('percentage calculation', () => {
+    it('calculates percentage based on max possible score', () => {
+      const ranked = rankProcesses(processes, { 'temps-disponible': 3 });
+
+      expect(ranked[0].percentage).toBe(100);
+      expect(ranked[1].percentage).toBe(60);
+      expect(ranked[2].percentage).toBe(60);
+    });
+
+    it('calculates percentage correctly with multiple criteria', () => {
+      const ranked = rankProcesses(processes, {
+        'temps-disponible': 3,
+        'niveau-enjeu': 3,
+      });
+
+      expect(ranked[0].percentage).toBe(100);
+    });
+
+    it('returns 0 percentage when no criteria selected', () => {
+      const ranked = rankProcesses(processes, {});
+
+      expect(ranked[0].percentage).toBe(0);
+    });
+  });
 });
 
-describe('selectTopProcesses', () => {
-  it('returns all processes when there are 3 or fewer', () => {
-    const processes: ScoredProcess[] = [
-      { name: 'A', score: 10 },
-      { name: 'B', score: 8 },
-    ];
-
-    const selected = selectTopProcesses(processes);
-    expect(selected).toHaveLength(2);
+describe('filterByThreshold', () => {
+  it('returns empty array for empty input', () => {
+    const filtered = filterByThreshold([]);
+    expect(filtered).toHaveLength(0);
   });
 
-  it('returns top 3 when no ex-aequo at position 3', () => {
-    const processes: ScoredProcess[] = [
-      { name: 'A', score: 10 },
-      { name: 'B', score: 8 },
-      { name: 'C', score: 6 },
-      { name: 'D', score: 4 },
-      { name: 'E', score: 2 },
-    ];
+  describe('90% threshold (at least 1 result)', () => {
+    it('shows all results >= 90% when at least one exists', () => {
+      const processes: ScoredProcess[] = [
+        { name: 'A', score: 10, percentage: 95 },
+        { name: 'B', score: 9, percentage: 92 },
+        { name: 'C', score: 7, percentage: 75 },
+        { name: 'D', score: 6, percentage: 60 },
+      ];
 
-    const selected = selectTopProcesses(processes);
-    expect(selected).toHaveLength(3);
-    expect(selected.map((p) => p.name)).toEqual(['A', 'B', 'C']);
+      const filtered = filterByThreshold(processes);
+      expect(filtered).toHaveLength(2);
+      expect(filtered.map((p) => p.name)).toEqual(['A', 'B']);
+    });
+
+    it('shows single result at exactly 90%', () => {
+      const processes: ScoredProcess[] = [
+        { name: 'A', score: 9, percentage: 90 },
+        { name: 'B', score: 8, percentage: 85 },
+        { name: 'C', score: 7, percentage: 75 },
+      ];
+
+      const filtered = filterByThreshold(processes);
+      expect(filtered).toHaveLength(1);
+      expect(filtered[0].name).toBe('A');
+    });
   });
 
-  it('includes ex-aequo processes up to 5', () => {
-    const processes: ScoredProcess[] = [
-      { name: 'A', score: 10 },
-      { name: 'B', score: 8 },
-      { name: 'C', score: 6 },
-      { name: 'D', score: 6 },
-      { name: 'E', score: 6 },
-      { name: 'F', score: 4 },
-    ];
+  describe('80% threshold (at least 2 results)', () => {
+    it('shows all results >= 80% when at least 2 exist', () => {
+      const processes: ScoredProcess[] = [
+        { name: 'A', score: 8, percentage: 85 },
+        { name: 'B', score: 8, percentage: 85 },
+        { name: 'C', score: 7, percentage: 70 },
+        { name: 'D', score: 5, percentage: 50 },
+      ];
 
-    const selected = selectTopProcesses(processes);
-    expect(selected).toHaveLength(5);
-    expect(selected.map((p) => p.name)).toEqual(['A', 'B', 'C', 'D', 'E']);
+      const filtered = filterByThreshold(processes);
+      expect(filtered).toHaveLength(2);
+      expect(filtered.map((p) => p.name)).toEqual(['A', 'B']);
+    });
+
+    it('does not use 80% threshold if only 1 result meets it, falls to 60% threshold', () => {
+      const processes: ScoredProcess[] = [
+        { name: 'A', score: 8, percentage: 85 },
+        { name: 'B', score: 7, percentage: 70 },
+        { name: 'C', score: 6, percentage: 65 },
+        { name: 'D', score: 6, percentage: 62 },
+      ];
+
+      const filtered = filterByThreshold(processes);
+      expect(filtered).toHaveLength(4);
+      expect(filtered.map((p) => p.name)).toEqual(['A', 'B', 'C', 'D']);
+    });
   });
 
-  it('limits to 5 even when more ex-aequo exist', () => {
-    const processes: ScoredProcess[] = [
-      { name: 'A', score: 10 },
-      { name: 'B', score: 8 },
-      { name: 'C', score: 6 },
-      { name: 'D', score: 6 },
-      { name: 'E', score: 6 },
-      { name: 'F', score: 6 },
-      { name: 'G', score: 6 },
-    ];
+  describe('60% threshold (at least 3 results)', () => {
+    it('shows all results >= 60% when at least 3 exist', () => {
+      const processes: ScoredProcess[] = [
+        { name: 'A', score: 6, percentage: 65 },
+        { name: 'B', score: 6, percentage: 62 },
+        { name: 'C', score: 6, percentage: 61 },
+        { name: 'D', score: 5, percentage: 55 },
+        { name: 'E', score: 4, percentage: 40 },
+      ];
 
-    const selected = selectTopProcesses(processes);
-    expect(selected).toHaveLength(5);
+      const filtered = filterByThreshold(processes);
+      expect(filtered).toHaveLength(3);
+      expect(filtered.map((p) => p.name)).toEqual(['A', 'B', 'C']);
+    });
+
+    it('does not use 60% threshold if only 2 results meet it', () => {
+      const processes: ScoredProcess[] = [
+        { name: 'A', score: 6, percentage: 65 },
+        { name: 'B', score: 6, percentage: 62 },
+        { name: 'C', score: 5, percentage: 55 },
+        { name: 'D', score: 5, percentage: 50 },
+        { name: 'E', score: 4, percentage: 45 },
+        { name: 'F', score: 4, percentage: 40 },
+      ];
+
+      const filtered = filterByThreshold(processes);
+      expect(filtered).toHaveLength(5);
+    });
   });
 
-  it('handles exact 3 processes', () => {
+  describe('fallback to top 5', () => {
+    it('returns top 5 when no threshold is met', () => {
+      const processes: ScoredProcess[] = [
+        { name: 'A', score: 5, percentage: 55 },
+        { name: 'B', score: 5, percentage: 50 },
+        { name: 'C', score: 4, percentage: 45 },
+        { name: 'D', score: 4, percentage: 40 },
+        { name: 'E', score: 3, percentage: 35 },
+        { name: 'F', score: 3, percentage: 30 },
+      ];
+
+      const filtered = filterByThreshold(processes);
+      expect(filtered).toHaveLength(5);
+      expect(filtered.map((p) => p.name)).toEqual(['A', 'B', 'C', 'D', 'E']);
+    });
+
+    it('returns all if fewer than 5 processes', () => {
+      const processes: ScoredProcess[] = [
+        { name: 'A', score: 5, percentage: 55 },
+        { name: 'B', score: 5, percentage: 50 },
+        { name: 'C', score: 4, percentage: 45 },
+      ];
+
+      const filtered = filterByThreshold(processes);
+      expect(filtered).toHaveLength(3);
+    });
+  });
+});
+
+describe('assignRanks', () => {
+  it('assigns sequential ranks for different scores', () => {
     const processes: ScoredProcess[] = [
-      { name: 'A', score: 10 },
-      { name: 'B', score: 8 },
-      { name: 'C', score: 6 },
+      { name: 'A', score: 10, percentage: 100 },
+      { name: 'B', score: 8, percentage: 80 },
+      { name: 'C', score: 6, percentage: 60 },
     ];
 
-    const selected = selectTopProcesses(processes);
-    expect(selected).toHaveLength(3);
+    const ranks = assignRanks(processes);
+    expect(ranks).toEqual([1, 2, 3]);
+  });
+
+  it('assigns same rank for tied scores (competition ranking)', () => {
+    const processes: ScoredProcess[] = [
+      { name: 'A', score: 10, percentage: 100 },
+      { name: 'B', score: 8, percentage: 85 },
+      { name: 'C', score: 8, percentage: 85 },
+      { name: 'D', score: 6, percentage: 60 },
+    ];
+
+    const ranks = assignRanks(processes);
+    expect(ranks).toEqual([1, 2, 2, 4]);
+  });
+
+  it('handles all tied scores', () => {
+    const processes: ScoredProcess[] = [
+      { name: 'A', score: 8, percentage: 80 },
+      { name: 'B', score: 8, percentage: 80 },
+      { name: 'C', score: 8, percentage: 80 },
+    ];
+
+    const ranks = assignRanks(processes);
+    expect(ranks).toEqual([1, 1, 1]);
+  });
+
+  it('handles empty array', () => {
+    const ranks = assignRanks([]);
+    expect(ranks).toEqual([]);
+  });
+
+  it('handles single process', () => {
+    const processes: ScoredProcess[] = [{ name: 'A', score: 10, percentage: 100 }];
+
+    const ranks = assignRanks(processes);
+    expect(ranks).toEqual([1]);
+  });
+
+  it('handles multiple tie groups', () => {
+    const processes: ScoredProcess[] = [
+      { name: 'A', score: 10, percentage: 100 },
+      { name: 'B', score: 10, percentage: 100 },
+      { name: 'C', score: 8, percentage: 80 },
+      { name: 'D', score: 8, percentage: 80 },
+      { name: 'E', score: 6, percentage: 60 },
+    ];
+
+    const ranks = assignRanks(processes);
+    expect(ranks).toEqual([1, 1, 3, 3, 5]);
   });
 });
