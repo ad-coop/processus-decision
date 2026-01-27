@@ -10,6 +10,13 @@ export interface ModalProps {
 
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      triggerRef.current = document.activeElement as HTMLElement;
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -19,6 +26,10 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
       dialog.showModal();
     } else if (!isOpen && dialog.open) {
       dialog.close();
+      if (triggerRef.current) {
+        triggerRef.current.focus();
+        triggerRef.current = null;
+      }
     }
   }, [isOpen]);
 

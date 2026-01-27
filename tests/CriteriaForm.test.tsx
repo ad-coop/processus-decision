@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MemoryRouter } from 'react-router-dom';
 import { CriteriaForm } from '../src/pages/CriteriaForm';
 
@@ -26,6 +27,20 @@ describe('CriteriaForm', () => {
 
     const errorMessage = screen.getByRole('alert');
     expect(errorMessage).toHaveAttribute('aria-live', 'polite');
+  });
+
+  it('form has aria-describedby linking to error message', async () => {
+    renderWithRouter(<CriteriaForm />);
+
+    const form = document.querySelector('form');
+    expect(form).not.toHaveAttribute('aria-describedby');
+
+    const submitButton = screen.getByRole('button', { name: 'Identifier les processus adaptés' });
+    await userEvent.click(submitButton);
+
+    expect(form).toHaveAttribute('aria-describedby', 'criteria-form-error');
+    const errorMessage = screen.getByRole('alert');
+    expect(errorMessage).toHaveAttribute('id', 'criteria-form-error');
   });
 
   it('clears error when user selects a criterion', async () => {
@@ -57,5 +72,13 @@ describe('CriteriaForm', () => {
 
     const sliders = screen.getAllByRole('slider');
     expect(sliders).toHaveLength(8);
+  });
+
+  it('has no accessibility violations', async () => {
+    const { container } = renderWithRouter(<CriteriaForm />);
+
+    const results = await axe(container);
+
+    expect(results).toHaveNoViolations();
   });
 });

@@ -15,11 +15,14 @@ describe('StarRating', () => {
     expect(screen.getByText('Test criterion')).toBeInTheDocument();
   });
 
-  it('renders 5 star buttons', () => {
-    render(<StarRating {...defaultProps} />);
-    const buttons = screen.getAllByRole('button', { hidden: true });
-    // 5 star buttons + 1 reset button = 6
-    expect(buttons).toHaveLength(6);
+  it('renders 5 star elements and 1 reset button', () => {
+    const { container } = render(<StarRating {...defaultProps} />);
+
+    const starElements = container.querySelectorAll('.star-rating__star-button');
+    expect(starElements).toHaveLength(5);
+
+    const resetButton = screen.getByRole('button', { name: /effacer/i });
+    expect(resetButton).toBeInTheDocument();
   });
 
   it('renders star labels when provided', () => {

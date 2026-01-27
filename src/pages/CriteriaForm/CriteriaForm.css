@@ -8,7 +8,7 @@
 }
 
 .criteria-form__intro a {
-  color: #00a9a2;
+  color: #007a75;
   text-decoration: underline;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .criteria-form__intro a:focus-visible {
-  outline: 2px solid #00a9a2;
+  outline: 2px solid #007a75;
   outline-offset: 2px;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .criteria-form__submit {
-  background-color: #00a9a2;
+  background-color: #007a75;
   color: white;
   border: none;
   padding: 0.875rem 1.5rem;
@@ -60,7 +60,7 @@
 }
 
 .criteria-form__submit:focus-visible {
-  outline: 2px solid #00a9a2;
+  outline: 2px solid #007a75;
   outline-offset: 2px;
 }
 

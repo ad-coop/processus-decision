@@ -57,26 +57,26 @@
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background-color: #00a9a2;
+  background-color: #007a75;
   padding: 0.5rem 0.75rem;
   margin: 0;
   border-radius: 4px 4px 0 0;
 }
 
 .process-details__context-title--advantages {
-  background-color: #00a9a2;
+  background-color: #007a75;
 }
 
 .process-details__context-title--suited {
-  background-color: #00a9a2;
+  background-color: #007a75;
 }
 
 .process-details__context-title--risks {
-  background-color: #00a9a2;
+  background-color: #007a75;
 }
 
 .process-details__context-title--not-recommended {
-  background-color: #00a9a2;
+  background-color: #007a75;
 }
 
 .process-details__context-list {
@@ -114,7 +114,7 @@
 }
 
 .process-details__link {
-  color: #00a9a2;
+  color: #007a75;
   text-decoration: underline;
 }
 
@@ -123,7 +123,7 @@
 }
 
 .process-details__link:focus-visible {
-  outline: 2px solid #00a9a2;
+  outline: 2px solid #007a75;
   outline-offset: 2px;
   border-radius: 2px;
 }

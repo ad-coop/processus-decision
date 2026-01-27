@@ -3,7 +3,7 @@
 }
 
 .results__link {
-  color: #00a9a2;
+  color: #007a75;
   text-decoration: underline;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .results__link:focus-visible {
-  outline: 2px solid #00a9a2;
+  outline: 2px solid #007a75;
   outline-offset: 2px;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .results__star--filled {
-  color: #00a9a2;
+  color: #007a75;
 }
 
 .results__list {
@@ -88,7 +88,7 @@
   flex-shrink: 0;
   width: 3.5rem;
   height: 3.5rem;
-  background-color: #00a9a2;
+  background-color: #007a75;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -126,15 +126,15 @@
 .results__process-name {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #00a9a2;
+  color: #007a75;
   margin: 0;
 }
 
 .results__detail-button {
   align-self: flex-start;
   background: white;
-  border: 1px solid #00a9a2;
-  color: #00a9a2;
+  border: 1px solid #007a75;
+  color: #007a75;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   border-radius: 4px;
@@ -144,12 +144,12 @@
 }
 
 .results__detail-button:hover {
-  background-color: #00a9a2;
+  background-color: #007a75;
   color: white;
 }
 
 .results__detail-button:focus-visible {
-  outline: 2px solid #00a9a2;
+  outline: 2px solid #007a75;
   outline-offset: 2px;
 }
 
@@ -190,7 +190,7 @@
 }
 
 .results__back-link {
-  color: #00a9a2;
+  color: #007a75;
   text-decoration: none;
   font-weight: 500;
 }
@@ -200,7 +200,7 @@
 }
 
 .results__back-link:focus-visible {
-  outline: 2px solid #00a9a2;
+  outline: 2px solid #007a75;
   outline-offset: 2px;
 }
 

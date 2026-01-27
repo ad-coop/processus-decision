@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -63,5 +64,31 @@ describe('Modal', () => {
 
     const dialog = container.querySelector('dialog');
     expect(dialog).not.toHaveAttribute('open');
+  });
+
+  it('returns focus to trigger element when closed', async () => {
+    const TestComponent = () => {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <>
+          <button onClick={() => setIsOpen(true)}>Open Modal</button>
+          <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Test Modal">
+            <p>Content</p>
+          </Modal>
+        </>
+      );
+    };
+
+    render(<TestComponent />);
+
+    const openButton = screen.getByRole('button', { name: 'Open Modal' });
+    await userEvent.click(openButton);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+    const closeButton = screen.getByRole('button', { name: /fermer/i });
+    await userEvent.click(closeButton);
+
+    expect(openButton).toHaveFocus();
   });
 });

@@ -25,14 +25,14 @@ export function StarRating({ label, starLabels, value, onChange }: StarRatingPro
     return 'empty';
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>, starIndex: number) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLSpanElement>, starIndex: number) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const isLeftHalf = x < rect.width / 2;
     setHoverValue(starIndex + (isLeftHalf ? 0.5 : 1));
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, starIndex: number) => {
+  const handleClick = (e: React.MouseEvent<HTMLSpanElement>, starIndex: number) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const isLeftHalf = x < rect.width / 2;
@@ -96,16 +96,13 @@ export function StarRating({ label, starLabels, value, onChange }: StarRatingPro
         >
           {Array.from({ length: STAR_COUNT }, (_, i) => (
             <div key={i} className="star-rating__star-wrapper">
-              <button
-                type="button"
+              <span
                 className="star-rating__star-button"
                 onMouseMove={(e) => handleMouseMove(e, i)}
                 onClick={(e) => handleClick(e, i)}
-                tabIndex={-1}
-                aria-hidden="true"
               >
                 <StarIcon fill={getStarFill(i)} size={32} />
-              </button>
+              </span>
               {starLabels && starLabels[i] && (
                 <span className="star-rating__star-label">{starLabels[i]}</span>
               )}

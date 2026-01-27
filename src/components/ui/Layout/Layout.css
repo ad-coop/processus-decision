@@ -4,6 +4,22 @@
   flex-direction: column;
 }
 
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 8px 16px;
+  background: #007a75;
+  color: white;
+  z-index: 100;
+  transition: top 0.2s;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 .layout__content {
   flex: 1;
   padding: 1rem;

@@ -114,7 +114,7 @@ export function CriteriaForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} aria-describedby={error ? 'criteria-form-error' : undefined}>
         <div className="criteria-form__list">
           {CRITERIA.map((criterion) => (
             <StarRating
@@ -129,7 +129,12 @@ export function CriteriaForm() {
 
         <div className="criteria-form__footer">
           {error && (
-            <p className="criteria-form__error" role="alert" aria-live="polite">
+            <p
+              id="criteria-form-error"
+              className="criteria-form__error"
+              role="alert"
+              aria-live="polite"
+            >
               {error}
             </p>
           )}
