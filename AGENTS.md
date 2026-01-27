@@ -137,3 +137,7 @@ Alternatively, import assets directly (Vite handles the path):
 import logo from '/logo.png'; // Vite resolves this correctly
 <img src={logo} />;
 ```
+
+## Specification
+
+- When refining a specification, only plan updates on that specification.
