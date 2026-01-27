@@ -13,7 +13,7 @@ const CRITERIA: Criterion[] = [
   {
     id: 'temps-disponible',
     label: 'Temps disponible',
-    starLabels: ['Secondes', '', 'Heures', '', 'Semaines'],
+    starLabels: ['Secondes', 'Minutes', 'Heures', 'Jours', 'Semaines'],
   },
   {
     id: 'niveau-enjeu',
@@ -23,7 +23,7 @@ const CRITERIA: Criterion[] = [
   {
     id: 'simplicite',
     label: 'Simplicité',
-    starLabels: ['Faible', '', '', '', 'Fort'],
+    starLabels: ['Simple', '', '', '', 'Complexe'],
   },
   {
     id: 'taille-groupe',
