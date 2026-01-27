@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { StarRating } from '../../components/common/StarRating';
 import './CriteriaForm.css';
 
@@ -40,11 +41,6 @@ const CRITERIA: Criterion[] = [
     starLabels: ['Faible', '', 'Modéré', '', 'Fort'],
   },
   {
-    id: 'besoin-trancher',
-    label: 'Besoin de trancher',
-    starLabels: ['Faible', '', 'Modéré', '', 'Fort'],
-  },
-  {
     id: 'sujet-conflictuel',
     label: 'Sujet conflictuel',
     starLabels: ['Non', '', 'Modérément conflictuel', '', 'Très conflictuel'],
@@ -57,6 +53,7 @@ const CRITERIA: Criterion[] = [
 ];
 
 export function CriteriaForm() {
+  const navigate = useNavigate();
   const [ratings, setRatings] = useState<Record<string, number | null>>({});
   const [error, setError] = useState<string | null>(null);
 
@@ -79,7 +76,15 @@ export function CriteriaForm() {
     }
 
     setError(null);
-    // Submit button does nothing for this iteration
+
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(ratings)) {
+      if (value !== null) {
+        params.set(key, String(value));
+      }
+    }
+
+    navigate(`/results?${params.toString()}`);
   };
 
   return (

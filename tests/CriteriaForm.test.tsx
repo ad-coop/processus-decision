@@ -1,11 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
 import { CriteriaForm } from '../src/pages/CriteriaForm';
+
+const renderWithRouter = (ui: React.ReactElement, { route = '/' } = {}) => {
+  return render(<MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>);
+};
 
 describe('CriteriaForm', () => {
   it('shows error when submitting without selecting any criterion', async () => {
-    render(<CriteriaForm />);
+    renderWithRouter(<CriteriaForm />);
 
     const submitButton = screen.getByRole('button', { name: 'Identifier les processus adaptés' });
     await userEvent.click(submitButton);
@@ -14,7 +19,7 @@ describe('CriteriaForm', () => {
   });
 
   it('error message has aria-live for accessibility', async () => {
-    render(<CriteriaForm />);
+    renderWithRouter(<CriteriaForm />);
 
     const submitButton = screen.getByRole('button', { name: 'Identifier les processus adaptés' });
     await userEvent.click(submitButton);
@@ -24,19 +29,33 @@ describe('CriteriaForm', () => {
   });
 
   it('clears error when user selects a criterion', async () => {
-    render(<CriteriaForm />);
+    renderWithRouter(<CriteriaForm />);
 
-    // Trigger error first
     const submitButton = screen.getByRole('button', { name: 'Identifier les processus adaptés' });
     await userEvent.click(submitButton);
     expect(screen.getByText('Sélectionnez au moins un critère')).toBeInTheDocument();
 
-    // Select a criterion using keyboard navigation
     const sliders = screen.getAllByRole('slider');
     sliders[0].focus();
     fireEvent.keyDown(sliders[0], { key: 'ArrowRight' });
 
-    // Error should be gone
     expect(screen.queryByText('Sélectionnez au moins un critère')).not.toBeInTheDocument();
+  });
+
+  it('renders all 8 criteria after removing "Besoin de trancher"', () => {
+    renderWithRouter(<CriteriaForm />);
+
+    expect(screen.getByText('Temps disponible')).toBeInTheDocument();
+    expect(screen.getByText("Niveau d'enjeu")).toBeInTheDocument();
+    expect(screen.getByText('Simplicité')).toBeInTheDocument();
+    expect(screen.getByText('Taille de groupe')).toBeInTheDocument();
+    expect(screen.getByText("Niveau d'adhésion nécessaire")).toBeInTheDocument();
+    expect(screen.getByText('Besoin de créativité')).toBeInTheDocument();
+    expect(screen.getByText('Sujet conflictuel')).toBeInTheDocument();
+    expect(screen.getByText('Asynchrone')).toBeInTheDocument();
+    expect(screen.queryByText('Besoin de trancher')).not.toBeInTheDocument();
+
+    const sliders = screen.getAllByRole('slider');
+    expect(sliders).toHaveLength(8);
   });
 });

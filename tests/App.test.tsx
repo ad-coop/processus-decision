@@ -22,7 +22,7 @@ describe('App', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders all criteria', () => {
+  it('renders all criteria (excluding removed "Besoin de trancher")', () => {
     render(<App />);
     expect(screen.getByText('Temps disponible')).toBeInTheDocument();
     expect(screen.getByText("Niveau d'enjeu")).toBeInTheDocument();
@@ -30,9 +30,9 @@ describe('App', () => {
     expect(screen.getByText('Taille de groupe')).toBeInTheDocument();
     expect(screen.getByText("Niveau d'adhésion nécessaire")).toBeInTheDocument();
     expect(screen.getByText('Besoin de créativité')).toBeInTheDocument();
-    expect(screen.getByText('Besoin de trancher')).toBeInTheDocument();
     expect(screen.getByText('Sujet conflictuel')).toBeInTheDocument();
     expect(screen.getByText('Asynchrone')).toBeInTheDocument();
+    expect(screen.queryByText('Besoin de trancher')).not.toBeInTheDocument();
   });
 
   it('renders the external link with correct attributes', () => {
