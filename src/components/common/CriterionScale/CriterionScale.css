@@ -1,0 +1,65 @@
+.criterion-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.criterion-scale__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.criterion-scale__squares {
+  display: flex;
+  gap: 0.25rem;
+  position: relative;
+}
+
+.criterion-scale__square {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 2px;
+  background-color: white;
+  flex-shrink: 0;
+}
+
+.criterion-scale__square--primary {
+  background-color: #00a9a2;
+  border-color: #00a9a2;
+}
+
+.criterion-scale__square--secondary {
+  background-color: #7dd4d0;
+  border-color: #7dd4d0;
+}
+
+.criterion-scale__value {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.criterion-scale__variable {
+  font-style: italic;
+  color: #9ca3af;
+}
+
+.criterion-scale__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@media (min-width: 768px) {
+  .criterion-scale__square {
+    width: 2rem;
+    height: 2rem;
+  }
+}

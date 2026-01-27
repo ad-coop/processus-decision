@@ -1,0 +1,155 @@
+.process-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.process-details__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.process-details__section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.process-details__section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+/* Process steps */
+.process-details__steps {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.process-details__step {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+/* Criteria scales */
+.process-details__scales {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Context blocks */
+.process-details__context-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.process-details__context-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #00a9a2;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  border-radius: 4px 4px 0 0;
+}
+
+.process-details__context-title--advantages {
+  background-color: #00a9a2;
+}
+
+.process-details__context-title--suited {
+  background-color: #00a9a2;
+}
+
+.process-details__context-title--risks {
+  background-color: #00a9a2;
+}
+
+.process-details__context-title--not-recommended {
+  background-color: #00a9a2;
+}
+
+.process-details__context-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: #f9fafb;
+  padding: 0.75rem 1.5rem 0.75rem 2.25rem;
+  border: 1px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+}
+
+.process-details__context-item {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+/* Footer */
+.process-details__footer {
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 1rem;
+}
+
+.process-details__attribution {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  font-style: italic;
+}
+
+.process-details__link {
+  color: #00a9a2;
+  text-decoration: underline;
+}
+
+.process-details__link:hover {
+  text-decoration: none;
+}
+
+.process-details__link:focus-visible {
+  outline: 2px solid #00a9a2;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Responsive: 3-column layout on desktop */
+@media (min-width: 768px) {
+  .process-details__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 'steps scales context';
+  }
+
+  .process-details__section--steps {
+    grid-area: steps;
+  }
+
+  .process-details__section--scales {
+    grid-area: scales;
+  }
+
+  .process-details__section--context {
+    grid-area: context;
+  }
+
+  /* When no steps, scales take left column and context takes middle+right */
+  .process-details__grid:not(:has(.process-details__section--steps)) {
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: 'scales context';
+  }
+}

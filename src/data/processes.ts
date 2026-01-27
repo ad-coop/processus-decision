@@ -1,3 +1,6 @@
+import type { ProcessDetails } from './processDetails';
+import { PROCESS_DETAILS_MAP } from './processDetails';
+
 export type CriterionId =
   | 'temps-disponible'
   | 'niveau-enjeu'
@@ -18,12 +21,16 @@ export interface CriterionValue {
 export interface DecisionProcess {
   name: string;
   criteria: Record<CriterionId, CriterionValue>;
+  details: ProcessDetails;
+  isFamily: boolean;
 }
 
 export const DECISION_PROCESSES: DecisionProcess[] = [
   // Families of processes
   {
     name: 'Votes à choix multiples',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Votes à choix multiples'],
     criteria: {
       'temps-disponible': { value: 3, label: 'Heures' },
       'niveau-enjeu': { value: [3, 4], label: 'Moyen à Fort' },
@@ -37,6 +44,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Processus consultatifs',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Processus consultatifs'],
     criteria: {
       'temps-disponible': { value: [3, 4], label: 'Heures à Jours' },
       'niveau-enjeu': { value: [1.5, 3], label: 'Faible à Moyen' },
@@ -50,6 +59,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Processus horizontaux - égalitaires',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Processus horizontaux - égalitaires'],
     criteria: {
       'temps-disponible': { value: [3, 5], label: 'Heures à Semaines' },
       'niveau-enjeu': { value: [4, 5], label: 'Fort à Très fort' },
@@ -63,6 +74,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Mode de décisions libertaires',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Mode de décisions libertaires'],
     criteria: {
       'temps-disponible': { value: [1, 2], label: 'Instantané à Minutes' },
       'niveau-enjeu': { value: 1.5, label: 'Faible' },
@@ -76,6 +89,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Suivre un signe',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Suivre un signe'],
     criteria: {
       'temps-disponible': { value: [2, 3], label: 'Minutes à Heures' },
       'niveau-enjeu': { value: [1.5, 3], label: 'Faible à Moyen' },
@@ -89,6 +104,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Hasard',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Hasard'],
     criteria: {
       'temps-disponible': { value: 2, label: 'Minutes' },
       'niveau-enjeu': { value: 1.5, label: 'Faible' },
@@ -102,6 +119,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Tradition, habitudes',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Tradition, habitudes'],
     criteria: {
       'temps-disponible': { value: 1, label: 'Instantané' },
       'niveau-enjeu': { value: [1.5, 4], label: 'Faible à Fort' },
@@ -115,6 +134,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Non-choix',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Non-choix'],
     criteria: {
       'temps-disponible': { value: '*', label: 'Variable' },
       'niveau-enjeu': { value: '*', label: 'Variable' },
@@ -128,6 +149,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Déléguer la décision à un rôle',
+    isFamily: true,
+    details: PROCESS_DETAILS_MAP['Déléguer la décision à un rôle'],
     criteria: {
       'temps-disponible': { value: 3, label: 'Heures' },
       'niveau-enjeu': { value: [1.5, 4], label: 'Faible à Fort' },
@@ -142,6 +165,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   // Individual processes
   {
     name: 'Vote à la majorité',
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP['Vote à la majorité'],
     criteria: {
       'temps-disponible': { value: 3, label: 'Heures' },
       'niveau-enjeu': { value: [3, 4], label: 'Moyen à Fort' },
@@ -155,6 +180,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: "Partage d'intention",
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP["Partage d'intention"],
     criteria: {
       'temps-disponible': { value: 4, label: 'Jours' },
       'niveau-enjeu': { value: 1.5, label: 'Faible' },
@@ -168,6 +195,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: "Sollicitation d'avis",
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP["Sollicitation d'avis"],
     criteria: {
       'temps-disponible': { value: 4, label: 'Jours' },
       'niveau-enjeu': { value: 3, label: 'Moyen' },
@@ -181,6 +210,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Consultation collective',
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP['Consultation collective'],
     criteria: {
       'temps-disponible': { value: 3, label: 'Heures' },
       'niveau-enjeu': { value: [3, 4], label: 'Moyen à Fort' },
@@ -194,6 +225,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Consentement',
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP['Consentement'],
     criteria: {
       'temps-disponible': { value: 3, label: 'Heures' },
       'niveau-enjeu': { value: 4, label: 'Fort' },
@@ -207,6 +240,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Consensus (formel)',
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP['Consensus (formel)'],
     criteria: {
       'temps-disponible': { value: [3, 5], label: 'Heures à Semaines' },
       'niveau-enjeu': { value: 4, label: 'Fort' },
@@ -220,6 +255,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Consensus informel',
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP['Consensus informel'],
     criteria: {
       'temps-disponible': { value: 3, label: 'Heures' },
       'niveau-enjeu': { value: 4, label: 'Fort' },
@@ -233,6 +270,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Décisions algorithmiques',
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP['Décisions algorithmiques'],
     criteria: {
       'temps-disponible': { value: [2, 3], label: 'Minutes à Heures' },
       'niveau-enjeu': { value: [1.5, 3], label: 'Faible à Moyen' },
@@ -246,6 +285,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Vote par approbation',
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP['Vote par approbation'],
     criteria: {
       'temps-disponible': { value: 3, label: 'Heures' },
       'niveau-enjeu': { value: [3, 4], label: 'Moyen à Fort' },
@@ -259,6 +300,8 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
   },
   {
     name: 'Règle de trois',
+    isFamily: false,
+    details: PROCESS_DETAILS_MAP['Règle de trois'],
     criteria: {
       'temps-disponible': { value: 3, label: 'Heures' },
       'niveau-enjeu': { value: 3, label: 'Moyen' },

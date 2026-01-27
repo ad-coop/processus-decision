@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { Results } from '../src/pages/Results';
@@ -68,15 +69,54 @@ describe('Results', () => {
       expect(processNames.length).toBeGreaterThanOrEqual(1);
     });
 
-    it('displays "Voir le détail" buttons that are disabled', () => {
+    it('displays enabled "Voir le détail" buttons', () => {
       renderWithRouter('/results?temps-disponible=3');
 
       const detailButtons = screen.getAllByRole('button', { name: 'Voir le détail' });
       expect(detailButtons.length).toBeGreaterThanOrEqual(1);
 
       detailButtons.forEach((button) => {
-        expect(button).toBeDisabled();
+        expect(button).not.toBeDisabled();
       });
+    });
+
+    it('opens modal when clicking "Voir le détail" button', async () => {
+      const user = userEvent.setup();
+      renderWithRouter('/results?temps-disponible=3');
+
+      const detailButtons = screen.getAllByRole('button', { name: 'Voir le détail' });
+      await user.click(detailButtons[0]);
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+    });
+
+    it('closes modal when clicking close button', async () => {
+      const user = userEvent.setup();
+      renderWithRouter('/results?temps-disponible=3');
+
+      // Open modal
+      const detailButtons = screen.getAllByRole('button', { name: 'Voir le détail' });
+      await user.click(detailButtons[0]);
+
+      // Verify modal is open
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog');
+        expect(dialog).toHaveAttribute('open');
+      });
+
+      // Close modal
+      const closeButton = screen.getByRole('button', { name: /fermer/i });
+      await user.click(closeButton);
+
+      // Verify modal content is no longer visible (modal title)
+      await waitFor(
+        () => {
+          expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        },
+        { timeout: 2000 }
+      );
     });
 
     it('displays back link to modify criteria', () => {
