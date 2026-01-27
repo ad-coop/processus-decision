@@ -18,6 +18,17 @@ const CRITERION_LABELS: Record<CriterionId, string> = {
   asynchrone: 'Asynchrone',
 };
 
+const PROCESS_CRITERION_LABELS: Record<CriterionId, string> = {
+  'temps-disponible': 'Rapidité',
+  'niveau-enjeu': "Niveau d'enjeu",
+  simplicite: 'Simplicité',
+  'taille-groupe': 'Taille de groupe',
+  'niveau-adhesion': "Niveau d'adhésion nécessaire",
+  'besoin-creativite': 'Besoin de créativité',
+  'sujet-conflictuel': 'Sujet conflictuel',
+  asynchrone: 'Asynchrone',
+};
+
 const ALL_CRITERIA: CriterionId[] = [
   'temps-disponible',
   'niveau-enjeu',
@@ -143,7 +154,9 @@ export function Results() {
               <dl className="results__details">
                 {ALL_CRITERIA.map((criterionId) => (
                   <div key={criterionId} className="results__detail-item">
-                    <dt className="results__detail-label">{CRITERION_LABELS[criterionId]}</dt>
+                    <dt className="results__detail-label">
+                      {PROCESS_CRITERION_LABELS[criterionId]}
+                    </dt>
                     <dd className="results__detail-value">
                       {getCriterionDisplayValue(criterionId, process)}
                     </dd>

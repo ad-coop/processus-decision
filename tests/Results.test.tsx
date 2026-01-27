@@ -126,6 +126,21 @@ describe('Results', () => {
       expect(backLink).toBeInTheDocument();
       expect(backLink).toHaveAttribute('href', '/');
     });
+
+    it('uses different labels for criterion banner and process cards', () => {
+      renderWithRouter('/results?temps-disponible=3');
+
+      const banner = screen.getByRole('region', { name: 'Vos critères sélectionnés' });
+      const bannerLabel = banner.querySelector('.results__criterion-label');
+      expect(bannerLabel?.textContent).toBe('Temps disponible');
+
+      const processCards = screen.getAllByRole('listitem');
+      const processDetailLabels = processCards[0].querySelectorAll('.results__detail-label');
+      const rapiditeLabel = Array.from(processDetailLabels).find(
+        (label) => label.textContent === 'Rapidité'
+      );
+      expect(rapiditeLabel).toBeDefined();
+    });
   });
 
   describe('accessibility', () => {
