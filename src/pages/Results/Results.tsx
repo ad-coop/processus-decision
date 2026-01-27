@@ -80,7 +80,7 @@ export function Results() {
   if (selectedCriteria.length === 0) {
     return (
       <div className="results">
-        <h1 className="results__title">Processus adaptés</h1>
+        <h1 className="page-title">Processus adaptés</h1>
         <p className="results__empty">
           Aucun critère sélectionné.{' '}
           <Link to="/" className="results__link">
@@ -103,7 +103,7 @@ export function Results() {
 
   return (
     <div className="results">
-      <h1 className="results__title">Processus adaptés</h1>
+      <h1 className="page-title">Processus adaptés</h1>
 
       <div className="results__banner" role="region" aria-label="Vos critères sélectionnés">
         <h2 className="results__banner-title">Vos critères</h2>

@@ -89,7 +89,7 @@ export function CriteriaForm() {
 
   return (
     <div className="criteria-form">
-      <h1 className="criteria-form__title">Aide au choix d'un processus de décision</h1>
+      <h1 className="page-title">Aide au choix d'un processus de décision</h1>
 
       <div className="criteria-form__intro">
         <p>
