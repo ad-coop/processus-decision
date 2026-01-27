@@ -55,7 +55,7 @@ export const DECISION_PROCESSES: DecisionProcess[] = [
       'niveau-enjeu': { value: [4, 5], label: 'Fort à Très fort' },
       simplicite: { value: 4.5, label: 'Complexe (nécessite formation et posture)' },
       'taille-groupe': { value: [1, 3], label: '4 à 20 personnes' },
-      'niveau-adhesion': { value: 4.5, label: 'Fort)' },
+      'niveau-adhesion': { value: 4.5, label: 'Fort' },
       'besoin-creativite': { value: 4.5, label: 'Fort' },
       'sujet-conflictuel': { value: 2, label: 'Déconseillé si avis irréconciliables' },
       asynchrone: { value: 2, label: 'Difficile' },
