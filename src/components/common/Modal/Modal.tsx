@@ -1,4 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
+import dialogPolyfill from 'dialog-polyfill';
+import 'dialog-polyfill/dialog-polyfill.css';
 import './Modal.css';
 
 export interface ModalProps {
@@ -11,6 +13,15 @@ export interface ModalProps {
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const polyfillRegistered = useRef(false);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog && !polyfillRegistered.current) {
+      dialogPolyfill.registerDialog(dialog);
+      polyfillRegistered.current = true;
+    }
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
