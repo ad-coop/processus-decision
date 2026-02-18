@@ -78,7 +78,6 @@
 .process-details__context-block {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 .process-details__context-title {
