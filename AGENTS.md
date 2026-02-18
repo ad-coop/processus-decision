@@ -10,6 +10,9 @@
 npm install          # Install dependencies
 npm run dev          # Start dev server (port 3000)
 npm test             # Run Vitest tests
+npm run test:watch   # Run Vitest in watch mode
+npm run test:coverage # Run with coverage report
+npm run preview      # Preview production build locally
 npm run build        # Production build
 npm run lint         # ESLint check
 npm run format       # Prettier format
@@ -24,34 +27,33 @@ npm run format:check # Check formatting (CI)
 - **Build**: Vite
 - **Testing**: Vitest + React Testing Library
 - **Quality**: ESLint + Prettier + Husky
+- **Routing**: React Router v7
 
 ### Planned (not yet installed)
 
 - **State**: Zustand
-- **Routing**: React Router v7
 - **UI**: Ant Design + Tailwind CSS
 - **HTTP**: Axios
 
 ## Project Structure
 
-Target structure - create directories as needed:
-
 ```
 src/
 ├── components/
 │   ├── common/        # Shared components (Button, Modal, etc.)
+│   │   └── ComponentName/
+│   │       ├── ComponentName.tsx
+│   │       ├── ComponentName.css
+│   │       ├── ComponentName.test.tsx   # Tests colocated with components
+│   │       └── index.ts
 │   └── ui/            # Domain-specific UI components
+├── data/              # Static/seed data
 ├── pages/             # Route page components
-├── hooks/             # Custom React hooks
-├── store/             # Zustand stores
-├── services/          # API services (axios)
-├── types/             # Shared TypeScript definitions
-├── utils/             # Helper functions
-├── constants/         # App constants
-└── styles/            # Global styles
+└── utils/             # Helper functions
 specs/                 # Feature specifications
-tests/                 # Test files (mirror src/ structure)
 ```
+
+Note: `hooks/`, `store/`, `services/`, `types/`, `constants/`, `styles/` are planned — create as needed.
 
 ## Code Conventions
 
@@ -71,30 +73,9 @@ tests/                 # Test files (mirror src/ structure)
 - PascalCase for components, file name matches component name
 - One component per file, single responsibility
 
-### State Management (Zustand) - when installed
-
-```typescript
-// store/useExampleStore.ts
-interface ExampleState {
-  data: Data | null;
-  setData: (data: Data) => void;
-}
-
-export const useExampleStore = create<ExampleState>((set) => ({
-  data: null,
-  setData: (data) => set({ data }),
-}));
-```
-
-### API Services - when installed
-
-- All API calls go through `services/api.ts`
-- Use axios interceptors for auth headers and error handling
-- Type all request/response payloads
-
 ### Testing
 
-- Test files: `ComponentName.test.tsx` in `tests/` mirroring `src/`
+- Test files: `ComponentName.test.tsx` colocated alongside component (same directory)
 - Use `vi.fn()` for mocks
 - Prefer `screen.getByRole()` over `getByTestId()`
 
