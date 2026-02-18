@@ -14,6 +14,7 @@ export function Catalogue() {
 
   return (
     <main className="catalogue">
+      <div className="page-back-nav" aria-hidden="true" />
       <h1 className="page-title">Catalogue</h1>
       <div className="catalogue__grid">
         <section className="catalogue__column" aria-labelledby="catalogue-processes-title">

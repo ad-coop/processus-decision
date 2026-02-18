@@ -1,26 +1,4 @@
 .process-detail {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.5rem 1rem;
-}
-
-.process-detail__back {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  color: #007a75;
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.process-detail__back:hover {
-  text-decoration: underline;
-}
-
-.process-detail__back:focus-visible {
-  outline: 2px solid #007a75;
-  outline-offset: 2px;
-  border-radius: 2px;
 }
 
 .process-detail__not-found {
@@ -145,10 +123,6 @@
 }
 
 @media (min-width: 768px) {
-  .process-detail {
-    padding: 2rem;
-  }
-
   .process-details__grid {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: 'steps scales context';

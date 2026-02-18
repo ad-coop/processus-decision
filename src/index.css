@@ -43,6 +43,33 @@ body {
   }
 }
 
+/* Back navigation slot — always rendered to keep the h1 at a consistent
+   distance from the navbar regardless of whether a back link is present.
+   When empty, use aria-hidden="true" on the containing element. */
+.page-back-nav {
+  min-height: 1.75rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.page-back-link {
+  color: #007a75;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.page-back-link:hover {
+  text-decoration: underline;
+}
+
+.page-back-link:focus-visible {
+  outline: 2px solid #007a75;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /* Global page title styling */
 .page-title {
   font-size: 1.5rem;

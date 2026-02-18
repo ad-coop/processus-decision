@@ -94,6 +94,7 @@ export function Results() {
   if (selectedCriteria.length === 0) {
     return (
       <div className="results">
+        <div className="page-back-nav" aria-hidden="true" />
         <h1 className="page-title">Processus adaptés</h1>
         <p className="results__empty">
           Aucun critère sélectionné.{' '}
@@ -117,6 +118,7 @@ export function Results() {
 
   return (
     <div className="results">
+      <div className="page-back-nav" aria-hidden="true" />
       <h1 className="page-title">Processus adaptés</h1>
 
       <div className="results__banner" role="region" aria-label="Vos critères sélectionnés">

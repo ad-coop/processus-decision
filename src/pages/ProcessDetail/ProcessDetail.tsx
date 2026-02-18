@@ -41,11 +41,13 @@ export function ProcessDetail() {
   if (!process) {
     return (
       <main className="process-detail">
+        <nav className="page-back-nav" aria-label="Navigation de retour">
+          <Link to="/catalogue" className="page-back-link">
+            &larr; Retour au catalogue
+          </Link>
+        </nav>
         <h1 className="page-title">Processus non trouvé</h1>
         <p className="process-detail__not-found">Ce processus n&apos;existe pas.</p>
-        <Link to="/catalogue" className="process-detail__back">
-          &larr; Retour au catalogue
-        </Link>
       </main>
     );
   }
@@ -55,18 +57,24 @@ export function ProcessDetail() {
 
   const backLink =
     state?.from === 'results' ? (
-      <Link to={`/results${state.search ?? ''}`} className="process-detail__back">
+      <Link to={`/results${state.search ?? ''}`} className="page-back-link">
         &larr; Retour aux résultats
       </Link>
     ) : state?.from === 'catalogue' ? (
-      <Link to="/catalogue" className="process-detail__back">
+      <Link to="/catalogue" className="page-back-link">
         &larr; Retour au catalogue
       </Link>
     ) : null;
 
   return (
     <main className="process-detail">
-      {backLink}
+      {backLink ? (
+        <nav className="page-back-nav" aria-label="Navigation de retour">
+          {backLink}
+        </nav>
+      ) : (
+        <div className="page-back-nav" aria-hidden="true" />
+      )}
       <h1 className="page-title">{name}</h1>
       <div className="process-details">
         <div className="process-details__grid">
