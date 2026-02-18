@@ -1,10 +1,10 @@
-import { useState, type ReactNode } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import type { ReactNode } from 'react';
+import { useSearchParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { DECISION_PROCESSES } from '../../data/processes';
-import type { CriterionId, DecisionProcess } from '../../data/processes';
+import type { CriterionId } from '../../data/processes';
 import { rankProcesses, filterByThreshold, assignRanks } from '../../utils/scoring';
 import type { UserCriteria } from '../../utils/scoring';
-import { ProcessDetailsModal } from '../../components/ui/ProcessDetailsModal';
+import { slugify } from '../../utils/slug';
 import './Results.css';
 
 const CRITERION_LABELS: Record<CriterionId, string> = {
@@ -86,7 +86,8 @@ function getCriterionDisplayValue(
 export function Results() {
   const [searchParams] = useSearchParams();
   const userCriteria = parseUserCriteria(searchParams);
-  const [selectedProcess, setSelectedProcess] = useState<DecisionProcess | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const selectedCriteria = Object.entries(userCriteria) as [CriterionId, number][];
 
@@ -146,7 +147,11 @@ export function Results() {
                 <button
                   type="button"
                   className="results__detail-button"
-                  onClick={() => setSelectedProcess(process)}
+                  onClick={() =>
+                    navigate('/processus/' + slugify(process.name), {
+                      state: { from: 'results', search: location.search },
+                    })
+                  }
                 >
                   Voir le détail
                 </button>
@@ -173,12 +178,6 @@ export function Results() {
           ← Modifier les critères
         </Link>
       </div>
-
-      <ProcessDetailsModal
-        process={selectedProcess}
-        isOpen={selectedProcess !== null}
-        onClose={() => setSelectedProcess(null)}
-      />
     </div>
   );
 }

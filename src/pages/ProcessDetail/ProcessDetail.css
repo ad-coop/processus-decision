@@ -1,3 +1,34 @@
+.process-detail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+.process-detail__back {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: #007a75;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.process-detail__back:hover {
+  text-decoration: underline;
+}
+
+.process-detail__back:focus-visible {
+  outline: 2px solid #007a75;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.process-detail__not-found {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+/* Reuse process-details styles from ProcessDetailsModal */
 .process-details {
   display: flex;
   flex-direction: column;
@@ -23,7 +54,6 @@
   margin: 0;
 }
 
-/* Process steps */
 .process-details__steps {
   list-style: decimal;
   padding-left: 1.5rem;
@@ -39,14 +69,12 @@
   color: #4b5563;
 }
 
-/* Criteria scales */
 .process-details__scales {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-/* Context blocks */
 .process-details__context-block {
   display: flex;
   flex-direction: column;
@@ -63,25 +91,15 @@
   border-radius: 4px 4px 0 0;
 }
 
-.process-details__context-title--advantages {
-  background-color: #007a75;
-}
-
-.process-details__context-title--suited {
-  background-color: #007a75;
-}
-
-.process-details__context-title--risks {
-  background-color: #007a75;
-}
-
+.process-details__context-title--advantages,
+.process-details__context-title--suited,
+.process-details__context-title--risks,
 .process-details__context-title--not-recommended {
   background-color: #007a75;
 }
 
 .process-details__context-list {
   list-style: disc;
-  padding-left: 1.5rem;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -99,7 +117,6 @@
   color: #4b5563;
 }
 
-/* Footer */
 .process-details__footer {
   padding-top: 1.5rem;
   border-top: 1px solid #e5e7eb;
@@ -128,8 +145,11 @@
   border-radius: 2px;
 }
 
-/* Responsive: 3-column layout on desktop */
 @media (min-width: 768px) {
+  .process-detail {
+    padding: 2rem;
+  }
+
   .process-details__grid {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: 'steps scales context';
@@ -147,7 +167,6 @@
     grid-area: context;
   }
 
-  /* When no steps, scales take left column and context takes middle+right */
   .process-details__grid:not(:has(.process-details__section--steps)) {
     grid-template-columns: 1fr 2fr;
     grid-template-areas: 'scales context';

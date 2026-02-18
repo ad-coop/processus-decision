@@ -1,21 +1,16 @@
-import type { DecisionProcess, CriterionId } from '../../../data/processes';
-import { Modal } from '../../common/Modal';
-import { CriterionScale } from '../../common/CriterionScale';
-import './ProcessDetailsModal.css';
+import { useParams, useLocation, Link } from 'react-router-dom';
+import { getProcessBySlug } from '../../utils/slug';
+import { CriterionScale } from '../../components/common/CriterionScale';
+import type { CriterionId } from '../../data/processes';
+import './ProcessDetail.css';
 
-export interface ProcessDetailsModalProps {
-  process: DecisionProcess | null;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const MODAL_CRITERION_LABELS: Record<CriterionId, string> = {
-  'temps-disponible': 'Rapidité',
+const CRITERION_LABELS: Record<CriterionId, string> = {
+  'temps-disponible': 'Rapidit\u00e9',
   'niveau-enjeu': "Niveau d'enjeu",
-  simplicite: 'Simplicité',
-  'taille-groupe': 'Taille de groupe idéale',
-  'niveau-adhesion': "Niveau d'adhésion",
-  'besoin-creativite': 'Besoin de créativité',
+  simplicite: 'Simplicit\u00e9',
+  'taille-groupe': 'Taille de groupe id\u00e9ale',
+  'niveau-adhesion': "Niveau d'adh\u00e9sion",
+  'besoin-creativite': 'Besoin de cr\u00e9ativit\u00e9',
   'sujet-conflictuel': 'Sujet conflictuel',
   asynchrone: 'Asynchrone',
 };
@@ -31,22 +26,53 @@ const ALL_CRITERIA: CriterionId[] = [
   'asynchrone',
 ];
 
-export function ProcessDetailsModal({ process, isOpen, onClose }: ProcessDetailsModalProps) {
+interface LocationState {
+  from?: 'results' | 'catalogue';
+  search?: string;
+}
+
+export function ProcessDetail() {
+  const { slug } = useParams<{ slug: string }>();
+  const location = useLocation();
+  const state = location.state as LocationState | null;
+
+  const process = getProcessBySlug(slug ?? '');
+
   if (!process) {
-    return null;
+    return (
+      <main className="process-detail">
+        <h1 className="page-title">Processus non trouvé</h1>
+        <p className="process-detail__not-found">Ce processus n&apos;existe pas.</p>
+        <Link to="/catalogue" className="process-detail__back">
+          &larr; Retour au catalogue
+        </Link>
+      </main>
+    );
   }
 
   const { name, details, criteria, isFamily } = process;
   const hasSteps = !isFamily && details.steps && details.steps.length > 0;
 
+  const backLink =
+    state?.from === 'results' ? (
+      <Link to={`/results${state.search ?? ''}`} className="process-detail__back">
+        &larr; Retour aux résultats
+      </Link>
+    ) : state?.from === 'catalogue' ? (
+      <Link to="/catalogue" className="process-detail__back">
+        &larr; Retour au catalogue
+      </Link>
+    ) : null;
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={name}>
+    <main className="process-detail">
+      {backLink}
+      <h1 className="page-title">{name}</h1>
       <div className="process-details">
         <div className="process-details__grid">
-          {/* Left column: Process steps (only for individual processes) */}
           {hasSteps && (
             <div className="process-details__section process-details__section--steps">
-              <h3 className="process-details__section-title">Déroulé du processus</h3>
+              <h2 className="process-details__section-title">Déroulé du processus</h2>
               <ol className="process-details__steps">
                 {details.steps!.map((step, index) => (
                   <li key={index} className="process-details__step">
@@ -57,22 +83,19 @@ export function ProcessDetailsModal({ process, isOpen, onClose }: ProcessDetails
             </div>
           )}
 
-          {/* Center column: Criteria scales */}
           <div className="process-details__section process-details__section--scales">
             <div className="process-details__scales">
               {ALL_CRITERIA.map((criterionId) => (
                 <CriterionScale
                   key={criterionId}
-                  label={MODAL_CRITERION_LABELS[criterionId]}
+                  label={CRITERION_LABELS[criterionId]}
                   value={criteria[criterionId].value}
                 />
               ))}
             </div>
           </div>
 
-          {/* Right column: Contextual usage blocks */}
           <div className="process-details__section process-details__section--context">
-            {/* Avantages */}
             {details.advantages.length > 0 && (
               <div className="process-details__context-block">
                 <h3 className="process-details__context-title process-details__context-title--advantages">
@@ -88,7 +111,6 @@ export function ProcessDetailsModal({ process, isOpen, onClose }: ProcessDetails
               </div>
             )}
 
-            {/* Adapté */}
             {details.suitedFor.length > 0 && (
               <div className="process-details__context-block">
                 <h3 className="process-details__context-title process-details__context-title--suited">
@@ -104,7 +126,6 @@ export function ProcessDetailsModal({ process, isOpen, onClose }: ProcessDetails
               </div>
             )}
 
-            {/* Risques */}
             {details.risks.length > 0 && (
               <div className="process-details__context-block">
                 <h3 className="process-details__context-title process-details__context-title--risks">
@@ -120,7 +141,6 @@ export function ProcessDetailsModal({ process, isOpen, onClose }: ProcessDetails
               </div>
             )}
 
-            {/* Déconseillé pour */}
             {details.notRecommendedFor.length > 0 && (
               <div className="process-details__context-block">
                 <h3 className="process-details__context-title process-details__context-title--not-recommended">
@@ -138,7 +158,6 @@ export function ProcessDetailsModal({ process, isOpen, onClose }: ProcessDetails
           </div>
         </div>
 
-        {/* Footer */}
         <div className="process-details__footer">
           <p className="process-details__attribution">
             Contenu tiré de la boîte à outils de la{' '}
@@ -154,6 +173,6 @@ export function ProcessDetailsModal({ process, isOpen, onClose }: ProcessDetails
           </p>
         </div>
       </div>
-    </Modal>
+    </main>
   );
 }

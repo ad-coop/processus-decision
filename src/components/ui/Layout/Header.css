@@ -1,4 +1,5 @@
 .header {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -17,6 +18,82 @@
   color: #007a75;
 }
 
+/* ── Hamburger toggle (mobile only) ────────────────── */
+
+.header__menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  padding: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: #007a75;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.header__menu-toggle:focus-visible {
+  outline: 2px solid #007a75;
+  outline-offset: 2px;
+}
+
+/* ── Nav (inline on desktop, overlay panel on mobile) ─ */
+
+.header__nav {
+  display: none;
+}
+
+.header__nav--open {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  z-index: 100;
+}
+
+/* Nav links — shared */
+.header__nav-link {
+  text-decoration: none;
+  color: #007a75;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+/* Nav links — panel layout (mobile) */
+.header__nav--open .header__nav-link {
+  display: block;
+  padding: 0.875rem 1rem;
+  min-height: 2.75rem; /* 44px touch target */
+  border-left: 4px solid transparent;
+}
+
+.header__nav--open .header__nav-link:hover {
+  background-color: rgba(0, 122, 117, 0.06);
+}
+
+.header__nav--open .header__nav-link--active {
+  border-left-color: #007a75;
+  font-weight: 600;
+}
+
+.header__nav-link:focus-visible {
+  outline: 2px solid #007a75;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Desktop ────────────────────────────────────────── */
+
 @media (min-width: 768px) {
   .header {
     padding: 1rem 2rem;
@@ -28,5 +105,35 @@
 
   .header__title {
     font-size: 1rem;
+  }
+
+  .header__menu-toggle {
+    display: none;
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: auto;
+  }
+
+  .header__nav-link {
+    padding: 0.375rem 0.75rem;
+    border-radius: 4px;
+    border-bottom: 3px solid transparent;
+  }
+
+  .header__nav-link:hover {
+    border-bottom-color: rgba(0, 122, 117, 0.3);
+  }
+
+  .header__nav-link--active {
+    border-bottom-color: #007a75;
+    font-weight: 600;
+  }
+
+  .header__nav-link--active:hover {
+    border-bottom-color: #007a75;
   }
 }
