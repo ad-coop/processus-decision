@@ -14,9 +14,14 @@ export function Header() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const isSearchActive = location.pathname === '/' || location.pathname === '/results';
+  const isProcessDetail = location.pathname.startsWith('/processus/');
+  const isFromSearch = (location.state as { from?: string } | null)?.from === 'results';
+  const isSearchActive =
+    location.pathname === '/' ||
+    location.pathname === '/results' ||
+    (isProcessDetail && isFromSearch);
   const isCatalogueActive =
-    location.pathname.startsWith('/catalogue') || location.pathname.startsWith('/processus/');
+    location.pathname.startsWith('/catalogue') || (isProcessDetail && !isFromSearch);
 
   const navLinkClass = (isActive: boolean) =>
     `header__nav-link${isActive ? ' header__nav-link--active' : ''}`;

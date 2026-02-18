@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Header } from './Header';
 
-function renderHeader(initialPath = '/') {
+function renderHeader(initialPath: string | { pathname: string; state?: unknown } = '/') {
   return render(
     <MemoryRouter initialEntries={[initialPath]}>
       <Header />
@@ -90,6 +90,22 @@ describe('Header', () => {
       renderHeader('/catalogue');
 
       expect(screen.getByRole('link', { name: 'Catalogue' })).toHaveClass(
+        'header__nav-link--active'
+      );
+    });
+
+    it('catalogueLink_isActive_onProcessusPath_whenFromCatalogue', () => {
+      renderHeader({ pathname: '/processus/vote', state: { from: 'catalogue' } });
+
+      expect(screen.getByRole('link', { name: 'Catalogue' })).toHaveClass(
+        'header__nav-link--active'
+      );
+    });
+
+    it('searchLink_isActive_onProcessusPath_whenFromResults', () => {
+      renderHeader({ pathname: '/processus/vote', state: { from: 'results' } });
+
+      expect(screen.getByRole('link', { name: 'Recherche de processus' })).toHaveClass(
         'header__nav-link--active'
       );
     });
