@@ -7,6 +7,19 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
+.header__logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.header__logo-link:focus-visible {
+  outline: 2px solid #007a75;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 .header__logo {
   height: 2rem;
   width: auto;

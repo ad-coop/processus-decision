@@ -28,8 +28,10 @@ export function Header() {
 
   return (
     <header className="header">
-      <img src={`${import.meta.env.BASE_URL}logo.webp`} alt="" className="header__logo" />
-      <span className="header__title">AD COOP | ALBAN DERICBOURG</span>
+      <a href="https://adcoop.fr/" className="header__logo-link" aria-label="AD COOP">
+        <img src={`${import.meta.env.BASE_URL}logo.webp`} alt="" className="header__logo" />
+        <span className="header__title">AD COOP | ALBAN DERICBOURG</span>
+      </a>
 
       <button
         className="header__menu-toggle"
