@@ -1,0 +1,52 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Europe/Paris",
+  "schedule": ["before 8am on Monday"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "description": "Auto-merge dev dependency minor and patch updates when CI passes",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "description": "Never auto-merge production dependencies",
+      "matchDepTypes": ["dependencies"],
+      "automerge": false
+    },
+    {
+      "description": "Group TypeScript type definitions together",
+      "matchPackagePrefixes": ["@types/"],
+      "groupName": "TypeScript type definitions"
+    },
+    {
+      "description": "Group Vitest ecosystem together (shared plugin API)",
+      "matchPackageNames": ["vitest", "@vitest/coverage-v8", "vitest-axe"],
+      "groupName": "Vitest"
+    },
+    {
+      "description": "Group ESLint ecosystem together (tight version coupling in flat config)",
+      "matchPackageNames": [
+        "eslint",
+        "@eslint/js",
+        "typescript-eslint",
+        "eslint-plugin-react-hooks",
+        "eslint-plugin-react-refresh"
+      ],
+      "groupName": "ESLint"
+    },
+    {
+      "description": "Group React core together (react/react-dom must stay in sync)",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "React"
+    },
+    {
+      "description": "Block React major updates (conscious opt-in required for React 20+)",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ]
+}
