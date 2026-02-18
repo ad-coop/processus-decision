@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter, createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 import { Catalogue } from './Catalogue';
+import { ProcessDetail } from '../ProcessDetail/ProcessDetail';
 import { DECISION_PROCESSES } from '../../data/processes';
 import { slugify } from '../../utils/slug';
 
@@ -47,6 +49,23 @@ describe('Catalogue', () => {
     const process = DECISION_PROCESSES.find((p) => !p.isFamily)!;
     const link = screen.getByRole('link', { name: process.name });
     expect(link).toHaveAttribute('href', `/processus/${slugify(process.name)}`);
+  });
+
+  it('link_whenClicked_navigatesToDetailWithBackToCatalogueLink', async () => {
+    const user = userEvent.setup();
+    const process = DECISION_PROCESSES.find((p) => !p.isFamily)!;
+    const router = createMemoryRouter(
+      [
+        { path: '/catalogue', element: <Catalogue /> },
+        { path: '/processus/:slug', element: <ProcessDetail /> },
+      ],
+      { initialEntries: ['/catalogue'] }
+    );
+
+    render(<RouterProvider router={router} />);
+    await user.click(screen.getByRole('link', { name: process.name }));
+
+    expect(screen.getByRole('link', { name: /retour au catalogue/i })).toBeInTheDocument();
   });
 
   it('renders_processesInAlphabeticalOrder', () => {

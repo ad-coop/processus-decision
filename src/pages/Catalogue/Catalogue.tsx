@@ -23,7 +23,11 @@ export function Catalogue() {
           <ul className="catalogue__list">
             {processes.map((process) => (
               <li key={process.name} className="catalogue__item">
-                <Link to={`/processus/${slugify(process.name)}`} className="catalogue__link">
+                <Link
+                  to={`/processus/${slugify(process.name)}`}
+                  state={{ from: 'catalogue' }}
+                  className="catalogue__link"
+                >
                   {process.name}
                 </Link>
               </li>
@@ -37,7 +41,11 @@ export function Catalogue() {
           <ul className="catalogue__list">
             {families.map((process) => (
               <li key={process.name} className="catalogue__item">
-                <Link to={`/processus/${slugify(process.name)}`} className="catalogue__link">
+                <Link
+                  to={`/processus/${slugify(process.name)}`}
+                  state={{ from: 'catalogue' }}
+                  className="catalogue__link"
+                >
                   {process.name}
                 </Link>
               </li>
