@@ -10,7 +10,7 @@
 .catalogue__column-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-heading);
   margin-bottom: 0.5rem;
   margin-top: 0;
 }
@@ -23,26 +23,26 @@
 
 .catalogue__item {
   padding: 0.625rem 0;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .catalogue__item:first-child {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-border);
 }
 
 .catalogue__link {
-  color: #111827;
+  color: var(--color-text);
   text-decoration: none;
   font-size: 0.9375rem;
 }
 
 .catalogue__link:hover {
-  color: #007a75;
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
 .catalogue__link:focus-visible {
-  outline: 2px solid #007a75;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
   border-radius: 2px;
 }

@@ -7,7 +7,7 @@
 .criterion-scale__label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-heading);
 }
 
 .criterion-scale__squares {
@@ -19,30 +19,30 @@
 .criterion-scale__square {
   width: 1.5rem;
   height: 1.5rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border-light);
   border-radius: 2px;
-  background-color: white;
+  background-color: var(--color-bg);
   flex-shrink: 0;
 }
 
 .criterion-scale__square--primary {
-  background-color: #007a75;
-  border-color: #007a75;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .criterion-scale__square--secondary {
-  background-color: #7dd4d0;
-  border-color: #7dd4d0;
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary-light);
 }
 
 .criterion-scale__value {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 .criterion-scale__variable {
   font-style: italic;
-  color: #9ca3af;
+  color: var(--color-text-tertiary);
 }
 
 .criterion-scale__sr-only {

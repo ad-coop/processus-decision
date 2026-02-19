@@ -8,7 +8,7 @@
 }
 
 .criteria-form__intro a {
-  color: #007a75;
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .criteria-form__intro a:focus-visible {
-  outline: 2px solid #007a75;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -35,16 +35,16 @@
 .criteria-form__error {
   margin: 0;
   padding: 0.75rem 1rem;
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
+  background-color: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
   border-radius: 4px;
-  color: #dc2626;
+  color: var(--color-error);
   font-size: 0.875rem;
 }
 
 .criteria-form__submit {
-  background-color: #007a75;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
   border: none;
   padding: 0.875rem 1.5rem;
   font-size: 1rem;
@@ -56,11 +56,11 @@
 }
 
 .criteria-form__submit:hover {
-  background-color: #008f89;
+  background-color: var(--color-primary-hover);
 }
 
 .criteria-form__submit:focus-visible {
-  outline: 2px solid #007a75;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 

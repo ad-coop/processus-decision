@@ -2,7 +2,7 @@
 }
 
 .process-detail__not-found {
-  color: #6b7280;
+  color: var(--color-text-secondary);
   margin-bottom: 1.5rem;
 }
 
@@ -28,7 +28,7 @@
 .process-details__section-title {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-heading);
   margin: 0;
 }
 
@@ -44,7 +44,7 @@
 .process-details__step {
   font-size: 0.875rem;
   line-height: 1.5;
-  color: #4b5563;
+  color: var(--color-text-body);
 }
 
 .process-details__scales {
@@ -61,8 +61,8 @@
 .process-details__context-title {
   font-size: 1rem;
   font-weight: 600;
-  color: white;
-  background-color: #007a75;
+  color: var(--color-on-primary);
+  background-color: var(--color-primary);
   padding: 0.5rem 0.75rem;
   margin: 0;
   border-radius: 4px 4px 0 0;
@@ -72,7 +72,7 @@
 .process-details__context-title--suited,
 .process-details__context-title--risks,
 .process-details__context-title--not-recommended {
-  background-color: #007a75;
+  background-color: var(--color-primary);
 }
 
 .process-details__context-list {
@@ -81,9 +81,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background-color: #f9fafb;
+  background-color: var(--color-bg-subtle);
   padding: 0.75rem 1.5rem 0.75rem 2.25rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   border-top: none;
   border-radius: 0 0 4px 4px;
 }
@@ -91,24 +91,24 @@
 .process-details__context-item {
   font-size: 0.875rem;
   line-height: 1.5;
-  color: #4b5563;
+  color: var(--color-text-body);
 }
 
 .process-details__footer {
   padding-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-border);
   margin-top: 1rem;
 }
 
 .process-details__attribution {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   margin: 0;
   font-style: italic;
 }
 
 .process-details__link {
-  color: #007a75;
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
@@ -117,7 +117,7 @@
 }
 
 .process-details__link:focus-visible {
-  outline: 2px solid #007a75;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
   border-radius: 2px;
 }

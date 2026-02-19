@@ -5,9 +5,6 @@ interface StarIconProps {
   size?: number;
 }
 
-const FILLED_COLOR = '#00a9a2';
-const EMPTY_COLOR = '#CCCCCC';
-
 export function StarIcon({ fill, size = 24 }: StarIconProps) {
   const uniqueId = useId();
 
@@ -23,7 +20,7 @@ export function StarIcon({ fill, size = 24 }: StarIconProps) {
       {fill === 'half' && (
         <defs>
           <linearGradient id={uniqueId}>
-            <stop offset="50%" stopColor={FILLED_COLOR} />
+            <stop offset="50%" stopColor="var(--color-primary-vivid)" />
             <stop offset="50%" stopColor="transparent" />
           </linearGradient>
         </defs>
@@ -31,9 +28,13 @@ export function StarIcon({ fill, size = 24 }: StarIconProps) {
       <path
         d="M12 2L14.09 8.26L21 9.27L16 14.14L17.18 21.02L12 17.77L6.82 21.02L8 14.14L3 9.27L9.91 8.26L12 2Z"
         fill={
-          fill === 'full' ? FILLED_COLOR : fill === 'half' ? `url(#${uniqueId})` : 'transparent'
+          fill === 'full'
+            ? 'var(--color-primary-vivid)'
+            : fill === 'half'
+              ? `url(#${uniqueId})`
+              : 'transparent'
         }
-        stroke={fill === 'empty' ? EMPTY_COLOR : FILLED_COLOR}
+        stroke={fill === 'empty' ? 'var(--color-star-empty)' : 'var(--color-primary-vivid)'}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
