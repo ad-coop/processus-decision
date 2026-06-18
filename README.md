@@ -23,30 +23,22 @@ This project deploys to **GitHub Pages** automatically when you create a version
 
 ### Creating a release
 
-```bash
-# Create and push a version tag
-git tag v1.0.0
-git push origin v1.0.0
-```
+Go to **Actions → Release → Run workflow**, select `patch`, `minor`, or `major`, and click **Run workflow**.
 
-The deploy workflow will automatically:
+The workflow will automatically:
 
-1. Build the production bundle
-2. Deploy to GitHub Pages
+1. Compute the next version from the latest git tag
+2. Update `package.json` and create a version bump commit
+3. Create and push a git tag
+4. Create a GitHub Release with auto-generated notes
+5. Trigger the deploy workflow, building and deploying to GitHub Pages
 
 Your site will be available at: `https://<username>.github.io/<repo-name>/`
 
-### Version numbering
-
-Use [semantic versioning](https://semver.org/):
-
-- `v1.0.0` - Major release (breaking changes)
-- `v1.1.0` - Minor release (new features)
-- `v1.0.1` - Patch release (bug fixes)
-
 ## CI/CD
 
-| Workflow | Trigger            | Actions                          |
-| -------- | ------------------ | -------------------------------- |
-| CI       | Push/PR to `main`  | Lint, test, build                |
-| Deploy   | Tags matching `v*` | Build and deploy to GitHub Pages |
+| Workflow | Trigger                      | Actions                                          |
+| -------- | ---------------------------- | ------------------------------------------------ |
+| CI       | Push/PR to `main`            | Lint, test, build                                |
+| Release  | Manual (`workflow_dispatch`) | Bump version, tag, create GitHub Release, deploy |
+| Deploy   | Tags matching `v*`           | Build and deploy to GitHub Pages                 |
