@@ -18,8 +18,8 @@
     },
     {
       "description": "Group TypeScript type definitions together",
-      "matchPackagePrefixes": ["@types/"],
-      "groupName": "TypeScript type definitions"
+      "groupName": "TypeScript type definitions",
+      "matchPackageNames": ["@types/{/,}**"]
     },
     {
       "description": "Group Vitest ecosystem together (shared plugin API)",
@@ -39,12 +39,22 @@
     },
     {
       "description": "Group React core together (react/react-dom must stay in sync)",
-      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
       "groupName": "React"
     },
     {
       "description": "Block React major updates (conscious opt-in required for React 20+)",
-      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
       "matchUpdateTypes": ["major"],
       "enabled": false
     }
