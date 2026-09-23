@@ -6,7 +6,6 @@
   margin-bottom: 1.5rem;
 }
 
-/* Reuse process-details styles from ProcessDetailsModal */
 .process-details {
   display: flex;
   flex-direction: column;
