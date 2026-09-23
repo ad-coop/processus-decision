@@ -29,13 +29,6 @@
       "prettier --write"
     ]
   },
-  "browserslist": [
-    ">0.5%",
-    "last 2 versions",
-    "Firefox ESR",
-    "not dead",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "@eslint/js": "^10.0.0",
     "@testing-library/jest-dom": "^6.9.1",
