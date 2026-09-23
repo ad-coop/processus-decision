@@ -1,14 +1,19 @@
-import type { ProcessValue } from '../../../data/processes';
-import { getScalePositions, generateAccessibilityLabel } from '../../../utils/scaleQualifiers';
+import type { CriterionId, ProcessValue } from '../../../data/processes';
+import {
+  getScalePositions,
+  generateAccessibilityLabel,
+  SCALE_LABELS,
+} from '../../../utils/scaleQualifiers';
 import './CriterionScale.css';
 
 export interface CriterionScaleProps {
-  label: string;
+  criterionId: CriterionId;
   value: ProcessValue;
 }
 
-export function CriterionScale({ label, value }: CriterionScaleProps) {
-  const accessibilityLabel = generateAccessibilityLabel(label, value);
+export function CriterionScale({ criterionId, value }: CriterionScaleProps) {
+  const accessibilityLabel = generateAccessibilityLabel(criterionId, value);
+  const label = SCALE_LABELS[criterionId];
 
   // Handle wildcard
   if (value === '*') {

@@ -1,22 +1,11 @@
 import type { ReactNode } from 'react';
 import { useSearchParams, useNavigate, useLocation, Link } from 'react-router-dom';
-import { DECISION_PROCESSES } from '../../data/processes';
+import { CRITERION_IDS, CRITERION_LABELS, DECISION_PROCESSES } from '../../data/processes';
 import type { CriterionId } from '../../data/processes';
 import { rankProcesses, filterByThreshold, assignRanks } from '../../utils/scoring';
 import type { UserCriteria } from '../../utils/scoring';
 import { slugify } from '../../utils/slug';
 import './Results.css';
-
-const CRITERION_LABELS: Record<CriterionId, string> = {
-  'temps-disponible': 'Temps disponible',
-  'niveau-enjeu': "Niveau d'enjeu",
-  simplicite: 'Simplicité',
-  'taille-groupe': 'Taille de groupe',
-  'niveau-adhesion': "Niveau d'adhésion nécessaire",
-  'besoin-creativite': 'Besoin de créativité',
-  'sujet-conflictuel': 'Sujet conflictuel',
-  asynchrone: 'Asynchrone',
-};
 
 const PROCESS_CRITERION_LABELS: Record<CriterionId, string> = {
   'temps-disponible': 'Rapidité',
@@ -29,21 +18,10 @@ const PROCESS_CRITERION_LABELS: Record<CriterionId, string> = {
   asynchrone: 'Asynchrone',
 };
 
-const ALL_CRITERIA: CriterionId[] = [
-  'temps-disponible',
-  'niveau-enjeu',
-  'simplicite',
-  'taille-groupe',
-  'niveau-adhesion',
-  'besoin-creativite',
-  'sujet-conflictuel',
-  'asynchrone',
-];
-
 function parseUserCriteria(searchParams: URLSearchParams): UserCriteria {
   const criteria: UserCriteria = {};
 
-  for (const criterionId of ALL_CRITERIA) {
+  for (const criterionId of CRITERION_IDS) {
     const value = searchParams.get(criterionId);
     if (value !== null) {
       const numValue = parseFloat(value);
@@ -159,7 +137,7 @@ export function Results() {
                 </button>
               </div>
               <dl className="results__details">
-                {ALL_CRITERIA.map((criterionId) => (
+                {CRITERION_IDS.map((criterionId) => (
                   <div key={criterionId} className="results__detail-item">
                     <dt className="results__detail-label">
                       {PROCESS_CRITERION_LABELS[criterionId]}

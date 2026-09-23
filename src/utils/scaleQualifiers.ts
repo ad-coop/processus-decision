@@ -39,6 +39,17 @@ export function getScalePositions(value: ProcessValue): {
   return { primary: [position], secondary: [] };
 }
 
+export const SCALE_LABELS: Record<CriterionId, string> = {
+  'temps-disponible': 'Rapidit\u00e9',
+  'niveau-enjeu': "Niveau d'enjeu",
+  simplicite: 'Simplicit\u00e9',
+  'taille-groupe': 'Taille de groupe id\u00e9ale',
+  'niveau-adhesion': "Niveau d'adh\u00e9sion",
+  'besoin-creativite': 'Besoin de cr\u00e9ativit\u00e9',
+  'sujet-conflictuel': 'Sujet conflictuel',
+  asynchrone: 'Asynchrone',
+};
+
 /**
  * Qualifier mappings for each criterion based on the 1-10 scale
  * Spec lines 86-110
@@ -123,14 +134,10 @@ function getQualifierForPosition(criterionId: CriterionId, position: number): st
  * - Single value: "Rapidité: réalisable en quelques heures"
  * - Range: "Rapidité: idéal en quelques heures, acceptable en quelques jours"
  */
-export function generateAccessibilityLabel(criterionLabel: string, value: ProcessValue): string {
+export function generateAccessibilityLabel(criterionId: CriterionId, value: ProcessValue): string {
+  const criterionLabel = SCALE_LABELS[criterionId];
   if (value === '*') {
     return `${criterionLabel}: Variable`;
-  }
-
-  const criterionId = getCriterionIdFromLabel(criterionLabel);
-  if (!criterionId) {
-    return `${criterionLabel}: Non disponible`;
   }
 
   if (Array.isArray(value)) {
@@ -153,23 +160,4 @@ export function generateAccessibilityLabel(criterionLabel: string, value: Proces
   const position = Math.round(convertToTenScale(value));
   const qualifier = getQualifierForPosition(criterionId, position);
   return `${criterionLabel}: ${qualifier.toLowerCase()}`;
-}
-
-/**
- * Maps a display label back to its criterion ID
- * This is needed for the accessibility label generation
- */
-function getCriterionIdFromLabel(label: string): CriterionId | null {
-  const labelMap: Record<string, CriterionId> = {
-    Rapidité: 'temps-disponible',
-    "Niveau d'enjeu": 'niveau-enjeu',
-    Simplicité: 'simplicite',
-    'Taille de groupe idéale': 'taille-groupe',
-    "Niveau d'adhésion": 'niveau-adhesion',
-    'Besoin de créativité': 'besoin-creativite',
-    'Sujet conflictuel': 'sujet-conflictuel',
-    Asynchrone: 'asynchrone',
-  };
-
-  return labelMap[label] || null;
 }

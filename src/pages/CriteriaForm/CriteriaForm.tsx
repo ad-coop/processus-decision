@@ -1,56 +1,26 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StarRating } from '../../components/common/StarRating';
+import { CRITERION_IDS, CRITERION_LABELS } from '../../data/processes';
+import type { CriterionId } from '../../data/processes';
 import './CriteriaForm.css';
 
-interface Criterion {
-  id: string;
-  label: string;
-  starLabels: [string, string, string, string, string];
-}
-
-const CRITERIA: Criterion[] = [
-  {
-    id: 'temps-disponible',
-    label: 'Temps disponible',
-    starLabels: ['Secondes', 'Minutes', 'Heures', 'Jours', 'Semaines'],
-  },
-  {
-    id: 'niveau-enjeu',
-    label: "Niveau d'enjeu",
-    starLabels: ['Faible', '', '', '', 'Fort'],
-  },
-  {
-    id: 'simplicite',
-    label: 'Simplicité',
-    starLabels: ['Simple', '', '', '', 'Complexe'],
-  },
-  {
-    id: 'taille-groupe',
-    label: 'Taille de groupe',
-    starLabels: ['Quelques personnes', '', 'Centaines de personnes', '', 'Milliers de personnes'],
-  },
-  {
-    id: 'niveau-adhesion',
-    label: "Niveau d'adhésion nécessaire",
-    starLabels: ['Faible (être informé)', '', 'Moyen (accepter)', '', 'Fort'],
-  },
-  {
-    id: 'besoin-creativite',
-    label: 'Besoin de créativité',
-    starLabels: ['Faible', '', 'Modéré', '', 'Fort'],
-  },
-  {
-    id: 'sujet-conflictuel',
-    label: 'Sujet conflictuel',
-    starLabels: ['Non', '', 'Modérément conflictuel', '', 'Très conflictuel'],
-  },
-  {
-    id: 'asynchrone',
-    label: 'Asynchrone',
-    starLabels: ['Non', '', 'Modérément', '', 'Oui'],
-  },
-];
+const STAR_LABELS: Record<CriterionId, [string, string, string, string, string]> = {
+  'temps-disponible': ['Secondes', 'Minutes', 'Heures', 'Jours', 'Semaines'],
+  'niveau-enjeu': ['Faible', '', '', '', 'Fort'],
+  simplicite: ['Simple', '', '', '', 'Complexe'],
+  'taille-groupe': [
+    'Quelques personnes',
+    '',
+    'Centaines de personnes',
+    '',
+    'Milliers de personnes',
+  ],
+  'niveau-adhesion': ['Faible (être informé)', '', 'Moyen (accepter)', '', 'Fort'],
+  'besoin-creativite': ['Faible', '', 'Modéré', '', 'Fort'],
+  'sujet-conflictuel': ['Non', '', 'Modérément conflictuel', '', 'Très conflictuel'],
+  asynchrone: ['Non', '', 'Modérément', '', 'Oui'],
+};
 
 export function CriteriaForm() {
   const navigate = useNavigate();
@@ -117,13 +87,13 @@ export function CriteriaForm() {
 
       <form onSubmit={handleSubmit} aria-describedby={error ? 'criteria-form-error' : undefined}>
         <div className="criteria-form__list">
-          {CRITERIA.map((criterion) => (
+          {CRITERION_IDS.map((id) => (
             <StarRating
-              key={criterion.id}
-              label={criterion.label}
-              starLabels={criterion.starLabels}
-              value={ratings[criterion.id] ?? null}
-              onChange={(value) => handleRatingChange(criterion.id, value)}
+              key={id}
+              label={CRITERION_LABELS[id]}
+              starLabels={STAR_LABELS[id]}
+              value={ratings[id] ?? null}
+              onChange={(value) => handleRatingChange(id, value)}
             />
           ))}
         </div>

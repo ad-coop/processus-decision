@@ -1,30 +1,8 @@
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { getProcessBySlug } from '../../utils/slug';
 import { CriterionScale } from '../../components/common/CriterionScale';
-import type { CriterionId } from '../../data/processes';
+import { CRITERION_IDS } from '../../data/processes';
 import './ProcessDetail.css';
-
-const CRITERION_LABELS: Record<CriterionId, string> = {
-  'temps-disponible': 'Rapidit\u00e9',
-  'niveau-enjeu': "Niveau d'enjeu",
-  simplicite: 'Simplicit\u00e9',
-  'taille-groupe': 'Taille de groupe id\u00e9ale',
-  'niveau-adhesion': "Niveau d'adh\u00e9sion",
-  'besoin-creativite': 'Besoin de cr\u00e9ativit\u00e9',
-  'sujet-conflictuel': 'Sujet conflictuel',
-  asynchrone: 'Asynchrone',
-};
-
-const ALL_CRITERIA: CriterionId[] = [
-  'temps-disponible',
-  'niveau-enjeu',
-  'simplicite',
-  'taille-groupe',
-  'niveau-adhesion',
-  'besoin-creativite',
-  'sujet-conflictuel',
-  'asynchrone',
-];
 
 interface LocationState {
   from?: 'results' | 'catalogue';
@@ -93,10 +71,10 @@ export function ProcessDetail() {
 
           <div className="process-details__section process-details__section--scales">
             <div className="process-details__scales">
-              {ALL_CRITERIA.map((criterionId) => (
+              {CRITERION_IDS.map((criterionId) => (
                 <CriterionScale
                   key={criterionId}
-                  label={CRITERION_LABELS[criterionId]}
+                  criterionId={criterionId}
                   value={criteria[criterionId].value}
                 />
               ))}
