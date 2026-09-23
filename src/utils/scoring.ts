@@ -1,7 +1,7 @@
 import type { CriterionId, CriterionValue, DecisionProcess, ProcessValue } from '../data/processes';
 
 export interface ScoredProcess {
-  name: string;
+  process: DecisionProcess;
   score: number;
   percentage: number;
 }
@@ -52,11 +52,7 @@ export function rankProcesses(
     .map((process) => {
       const score = scoreProcess(process, userCriteria);
       const percentage = maxPossibleScore > 0 ? Math.round((score / maxPossibleScore) * 100) : 0;
-      return {
-        name: process.name,
-        score,
-        percentage,
-      };
+      return { process, score, percentage };
     })
     .sort((a, b) => b.score - a.score);
 

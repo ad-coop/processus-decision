@@ -77,12 +77,6 @@ export function Results() {
   const filteredProcesses = filterByThreshold(rankedProcesses);
   const ranks = assignRanks(filteredProcesses);
 
-  const processesWithDetails = filteredProcesses.map((scoredProcess, index) => ({
-    ...scoredProcess,
-    rank: ranks[index],
-    process: DECISION_PROCESSES.find((p) => p.name === scoredProcess.name)!,
-  }));
-
   return (
     <div className="results">
       <div className="page-back-nav" aria-hidden="true" />
@@ -101,18 +95,18 @@ export function Results() {
       </div>
 
       <ol className="results__list" aria-label="Liste des processus recommandés">
-        {processesWithDetails.map(({ name, percentage, rank, process }) => (
-          <li key={name} className="results__item">
+        {filteredProcesses.map(({ process, percentage }, index) => (
+          <li key={process.name} className="results__item">
             <div
               className="results__rank"
-              aria-label={`Rang ${rank}, ${percentage}% de correspondance`}
+              aria-label={`Rang ${ranks[index]}, ${percentage}% de correspondance`}
             >
-              <span className="results__rank-number">{rank}</span>
+              <span className="results__rank-number">{ranks[index]}</span>
               <span className="results__rank-percentage">{percentage}%</span>
             </div>
             <div className="results__content">
               <div className="results__header">
-                <h2 className="results__process-name">{name}</h2>
+                <h2 className="results__process-name">{process.name}</h2>
                 <button
                   type="button"
                   className="results__detail-button"
