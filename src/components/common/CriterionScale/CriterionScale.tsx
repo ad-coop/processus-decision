@@ -15,39 +15,27 @@ export function CriterionScale({ criterionId, value }: CriterionScaleProps) {
   const accessibilityLabel = generateAccessibilityLabel(criterionId, value);
   const label = SCALE_LABELS[criterionId];
 
-  // Handle wildcard
-  if (value === '*') {
-    return (
-      <div className="criterion-scale">
-        <div className="criterion-scale__label">{label}</div>
-        <div className="criterion-scale__value" aria-label={accessibilityLabel}>
-          <span className="criterion-scale__variable">Variable</span>
-        </div>
-      </div>
-    );
-  }
-
-  const primary = getScalePositions(value);
-
-  // Render 10 squares
-  const squares = [];
-  for (let i = 1; i <= 10; i++) {
-    let className = 'criterion-scale__square';
-
-    if (primary.includes(i)) {
-      className += ' criterion-scale__square--primary';
-    }
-
-    squares.push(<div key={i} className={className} aria-hidden="true" />);
-  }
+  const positions = getScalePositions(value);
 
   return (
     <div className="criterion-scale">
       <div className="criterion-scale__label">{label}</div>
-      <div className="criterion-scale__squares" aria-label={accessibilityLabel}>
-        {squares}
-        <span className="criterion-scale__sr-only">{accessibilityLabel}</span>
-      </div>
+      {value === '*' ? (
+        <div className="criterion-scale__value" aria-label={accessibilityLabel}>
+          <span className="criterion-scale__variable">Variable</span>
+        </div>
+      ) : (
+        <div className="criterion-scale__squares" aria-label={accessibilityLabel}>
+          {Array.from({ length: 10 }, (_, i) => (
+            <div
+              key={i}
+              className={`criterion-scale__square${positions.includes(i + 1) ? ' criterion-scale__square--primary' : ''}`}
+              aria-hidden="true"
+            />
+          ))}
+          <span className="criterion-scale__sr-only">{accessibilityLabel}</span>
+        </div>
+      )}
     </div>
   );
 }

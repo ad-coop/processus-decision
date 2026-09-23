@@ -35,21 +35,17 @@ function parseUserCriteria(searchParams: URLSearchParams): UserCriteria {
 }
 
 function renderStars(value: number): ReactNode {
-  const stars: ReactNode[] = [];
-  for (let i = 1; i <= 5; i++) {
-    stars.push(
-      <span
-        key={i}
-        className={`results__star ${i <= value ? 'results__star--filled' : ''}`}
-        aria-hidden="true"
-      >
-        ★
-      </span>
-    );
-  }
   return (
     <span className="results__stars" aria-label={`${value} étoiles sur 5`}>
-      {stars}
+      {Array.from({ length: 5 }, (_, i) => (
+        <span
+          key={i}
+          className={`results__star ${i + 1 <= value ? 'results__star--filled' : ''}`}
+          aria-hidden="true"
+        >
+          ★
+        </span>
+      ))}
     </span>
   );
 }
