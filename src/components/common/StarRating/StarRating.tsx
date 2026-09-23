@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { StarIcon } from './StarIcon';
 import './StarRating.css';
@@ -14,7 +14,6 @@ const STAR_COUNT = 5;
 
 export function StarRating({ label, starLabels, value, onChange }: StarRatingProps) {
   const [hoverValue, setHoverValue] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const displayValue = hoverValue ?? value ?? 0;
 
@@ -25,18 +24,10 @@ export function StarRating({ label, starLabels, value, onChange }: StarRatingPro
     return 'empty';
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLSpanElement>, starIndex: number) => {
+  const valueAt = (e: React.MouseEvent<HTMLSpanElement>, starIndex: number) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const isLeftHalf = x < rect.width / 2;
-    setHoverValue(starIndex + (isLeftHalf ? 0.5 : 1));
-  };
-
-  const handleClick = (e: React.MouseEvent<HTMLSpanElement>, starIndex: number) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const isLeftHalf = x < rect.width / 2;
-    onChange(starIndex + (isLeftHalf ? 0.5 : 1));
+    const isLeftHalf = e.clientX - rect.left < rect.width / 2;
+    return starIndex + (isLeftHalf ? 0.5 : 1);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -70,10 +61,6 @@ export function StarRating({ label, starLabels, value, onChange }: StarRatingPro
     }
   };
 
-  const handleReset = () => {
-    onChange(null);
-  };
-
   const ariaLabel = value ? `${label}: ${value} sur ${STAR_COUNT}` : `${label}: non renseigné`;
 
   return (
@@ -82,7 +69,6 @@ export function StarRating({ label, starLabels, value, onChange }: StarRatingPro
 
       <div className="star-rating__controls">
         <div
-          ref={containerRef}
           className="star-rating__stars"
           role="slider"
           aria-label={ariaLabel}
@@ -98,10 +84,10 @@ export function StarRating({ label, starLabels, value, onChange }: StarRatingPro
             <div key={i} className="star-rating__star-wrapper">
               <span
                 className="star-rating__star-button"
-                onMouseMove={(e) => handleMouseMove(e, i)}
-                onClick={(e) => handleClick(e, i)}
+                onMouseMove={(e) => setHoverValue(valueAt(e, i))}
+                onClick={(e) => onChange(valueAt(e, i))}
               >
-                <StarIcon fill={getStarFill(i)} size={32} />
+                <StarIcon fill={getStarFill(i)} />
               </span>
               {starLabels && starLabels[i] && (
                 <span className="star-rating__star-label">{starLabels[i]}</span>
@@ -113,7 +99,7 @@ export function StarRating({ label, starLabels, value, onChange }: StarRatingPro
         <button
           type="button"
           className="star-rating__reset"
-          onClick={handleReset}
+          onClick={() => onChange(null)}
           aria-label={`Effacer ${label}`}
         >
           <svg

@@ -24,7 +24,6 @@
   --color-primary: #007a75;
   --color-primary-hover: #008f89;
   --color-primary-vivid: #00a9a2;
-  --color-primary-light: #7dd4d0;
   --color-primary-subtle: rgba(0, 122, 117, 0.06);
   --color-primary-muted: rgba(0, 122, 117, 0.3);
   --color-on-primary: #ffffff;
@@ -63,7 +62,6 @@
     --color-primary: #4fd1c5;
     --color-primary-hover: #5eddd1;
     --color-primary-vivid: #4fd1c5;
-    --color-primary-light: #2a6b68;
     --color-primary-subtle: rgba(79, 209, 197, 0.1);
     --color-primary-muted: rgba(79, 209, 197, 0.3);
     --color-on-primary: #1a1a2e;

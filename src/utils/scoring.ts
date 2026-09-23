@@ -30,7 +30,7 @@ export function scoreProcess(process: DecisionProcess, userCriteria: UserCriteri
   let totalScore = 0;
 
   for (const [criterionId, userValue] of Object.entries(userCriteria)) {
-    if (userValue === undefined || userValue === null) {
+    if (userValue === undefined) {
       continue;
     }
 
@@ -63,27 +63,19 @@ export function rankProcesses(
   return scoredProcesses;
 }
 
+// Keep the first tier with enough matches: 1+ at 90%, 2+ at 80%, 3+ at 60%; otherwise the top 5
+const THRESHOLD_TIERS = [
+  [90, 1],
+  [80, 2],
+  [60, 3],
+];
+
 export function filterByThreshold(scoredProcesses: ScoredProcess[]): ScoredProcess[] {
-  if (scoredProcesses.length === 0) {
-    return [];
-  }
-
-  const countAtOrAbove = (threshold: number) =>
-    scoredProcesses.filter((p) => p.percentage >= threshold).length;
-
-  const filterAtOrAbove = (threshold: number) =>
-    scoredProcesses.filter((p) => p.percentage >= threshold);
-
-  if (countAtOrAbove(90) >= 1) {
-    return filterAtOrAbove(90);
-  }
-
-  if (countAtOrAbove(80) >= 2) {
-    return filterAtOrAbove(80);
-  }
-
-  if (countAtOrAbove(60) >= 3) {
-    return filterAtOrAbove(60);
+  for (const [threshold, minCount] of THRESHOLD_TIERS) {
+    const matches = scoredProcesses.filter((p) => p.percentage >= threshold);
+    if (matches.length >= minCount) {
+      return matches;
+    }
   }
 
   return scoredProcesses.slice(0, 5);

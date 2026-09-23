@@ -1,15 +1,29 @@
 import type { ProcessDetails } from './processDetails';
 import { PROCESS_DETAILS_MAP } from './processDetails';
 
-export type CriterionId =
-  | 'temps-disponible'
-  | 'niveau-enjeu'
-  | 'simplicite'
-  | 'taille-groupe'
-  | 'niveau-adhesion'
-  | 'besoin-creativite'
-  | 'sujet-conflictuel'
-  | 'asynchrone';
+export const CRITERION_IDS = [
+  'temps-disponible',
+  'niveau-enjeu',
+  'simplicite',
+  'taille-groupe',
+  'niveau-adhesion',
+  'besoin-creativite',
+  'sujet-conflictuel',
+  'asynchrone',
+] as const;
+
+export type CriterionId = (typeof CRITERION_IDS)[number];
+
+export const CRITERION_LABELS: Record<CriterionId, string> = {
+  'temps-disponible': 'Temps disponible',
+  'niveau-enjeu': "Niveau d'enjeu",
+  simplicite: 'Simplicité',
+  'taille-groupe': 'Taille de groupe',
+  'niveau-adhesion': "Niveau d'adhésion nécessaire",
+  'besoin-creativite': 'Besoin de créativité',
+  'sujet-conflictuel': 'Sujet conflictuel',
+  asynchrone: 'Asynchrone',
+};
 
 export type ProcessValue = number | [number, number] | '*';
 

@@ -1,22 +1,11 @@
 import type { ReactNode } from 'react';
 import { useSearchParams, useNavigate, useLocation, Link } from 'react-router-dom';
-import { DECISION_PROCESSES } from '../../data/processes';
+import { CRITERION_IDS, CRITERION_LABELS, DECISION_PROCESSES } from '../../data/processes';
 import type { CriterionId } from '../../data/processes';
 import { rankProcesses, filterByThreshold, assignRanks } from '../../utils/scoring';
 import type { UserCriteria } from '../../utils/scoring';
 import { slugify } from '../../utils/slug';
 import './Results.css';
-
-const CRITERION_LABELS: Record<CriterionId, string> = {
-  'temps-disponible': 'Temps disponible',
-  'niveau-enjeu': "Niveau d'enjeu",
-  simplicite: 'Simplicité',
-  'taille-groupe': 'Taille de groupe',
-  'niveau-adhesion': "Niveau d'adhésion nécessaire",
-  'besoin-creativite': 'Besoin de créativité',
-  'sujet-conflictuel': 'Sujet conflictuel',
-  asynchrone: 'Asynchrone',
-};
 
 const PROCESS_CRITERION_LABELS: Record<CriterionId, string> = {
   'temps-disponible': 'Rapidité',
@@ -29,21 +18,10 @@ const PROCESS_CRITERION_LABELS: Record<CriterionId, string> = {
   asynchrone: 'Asynchrone',
 };
 
-const ALL_CRITERIA: CriterionId[] = [
-  'temps-disponible',
-  'niveau-enjeu',
-  'simplicite',
-  'taille-groupe',
-  'niveau-adhesion',
-  'besoin-creativite',
-  'sujet-conflictuel',
-  'asynchrone',
-];
-
 function parseUserCriteria(searchParams: URLSearchParams): UserCriteria {
   const criteria: UserCriteria = {};
 
-  for (const criterionId of ALL_CRITERIA) {
+  for (const criterionId of CRITERION_IDS) {
     const value = searchParams.get(criterionId);
     if (value !== null) {
       const numValue = parseFloat(value);
@@ -57,30 +35,19 @@ function parseUserCriteria(searchParams: URLSearchParams): UserCriteria {
 }
 
 function renderStars(value: number): ReactNode {
-  const stars: ReactNode[] = [];
-  for (let i = 1; i <= 5; i++) {
-    stars.push(
-      <span
-        key={i}
-        className={`results__star ${i <= value ? 'results__star--filled' : ''}`}
-        aria-hidden="true"
-      >
-        ★
-      </span>
-    );
-  }
   return (
     <span className="results__stars" aria-label={`${value} étoiles sur 5`}>
-      {stars}
+      {Array.from({ length: 5 }, (_, i) => (
+        <span
+          key={i}
+          className={`results__star ${i + 1 <= value ? 'results__star--filled' : ''}`}
+          aria-hidden="true"
+        >
+          ★
+        </span>
+      ))}
     </span>
   );
-}
-
-function getCriterionDisplayValue(
-  criterionId: CriterionId,
-  process: (typeof DECISION_PROCESSES)[0]
-): string {
-  return process.criteria[criterionId].label;
 }
 
 export function Results() {
@@ -159,14 +126,12 @@ export function Results() {
                 </button>
               </div>
               <dl className="results__details">
-                {ALL_CRITERIA.map((criterionId) => (
+                {CRITERION_IDS.map((criterionId) => (
                   <div key={criterionId} className="results__detail-item">
                     <dt className="results__detail-label">
                       {PROCESS_CRITERION_LABELS[criterionId]}
                     </dt>
-                    <dd className="results__detail-value">
-                      {getCriterionDisplayValue(criterionId, process)}
-                    </dd>
+                    <dd className="results__detail-value">{process.criteria[criterionId].label}</dd>
                   </div>
                 ))}
               </dl>
