@@ -30,7 +30,7 @@ export function scoreProcess(process: DecisionProcess, userCriteria: UserCriteri
   let totalScore = 0;
 
   for (const [criterionId, userValue] of Object.entries(userCriteria)) {
-    if (userValue === undefined || userValue === null) {
+    if (userValue === undefined) {
       continue;
     }
 
