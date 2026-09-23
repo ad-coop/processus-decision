@@ -50,13 +50,6 @@ function renderStars(value: number): ReactNode {
   );
 }
 
-function getCriterionDisplayValue(
-  criterionId: CriterionId,
-  process: (typeof DECISION_PROCESSES)[0]
-): string {
-  return process.criteria[criterionId].label;
-}
-
 export function Results() {
   const [searchParams] = useSearchParams();
   const userCriteria = parseUserCriteria(searchParams);
@@ -138,9 +131,7 @@ export function Results() {
                     <dt className="results__detail-label">
                       {PROCESS_CRITERION_LABELS[criterionId]}
                     </dt>
-                    <dd className="results__detail-value">
-                      {getCriterionDisplayValue(criterionId, process)}
-                    </dd>
+                    <dd className="results__detail-value">{process.criteria[criterionId].label}</dd>
                   </div>
                 ))}
               </dl>
