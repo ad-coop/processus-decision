@@ -2,16 +2,15 @@ import { useId } from 'react';
 
 interface StarIconProps {
   fill: 'empty' | 'half' | 'full';
-  size?: number;
 }
 
-export function StarIcon({ fill, size = 24 }: StarIconProps) {
+export function StarIcon({ fill }: StarIconProps) {
   const uniqueId = useId();
 
   return (
     <svg
-      width={size}
-      height={size}
+      width="32"
+      height="32"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

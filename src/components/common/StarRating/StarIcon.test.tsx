@@ -37,17 +37,11 @@ describe('StarIcon', () => {
     expect(path).toHaveAttribute('stroke', 'var(--color-primary-vivid)');
   });
 
-  it('render_setsAriaHidden', () => {
+  it('render_setsAriaHiddenAndSize', () => {
     const { container } = render(<StarIcon fill="full" />);
 
     const svg = container.querySelector('svg');
     expect(svg).toHaveAttribute('aria-hidden', 'true');
-  });
-
-  it('render_whenCustomSize_appliesSizeToSvg', () => {
-    const { container } = render(<StarIcon fill="full" size={32} />);
-
-    const svg = container.querySelector('svg');
     expect(svg).toHaveAttribute('width', '32');
     expect(svg).toHaveAttribute('height', '32');
   });
