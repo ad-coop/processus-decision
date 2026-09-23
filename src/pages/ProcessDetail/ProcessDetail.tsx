@@ -4,6 +4,13 @@ import { CriterionScale } from '../../components/common/CriterionScale';
 import { CRITERION_IDS } from '../../data/processes';
 import './ProcessDetail.css';
 
+const CONTEXT_SECTIONS = [
+  { key: 'advantages', title: 'Avantages', modifier: 'advantages' },
+  { key: 'suitedFor', title: 'Adapté', modifier: 'suited' },
+  { key: 'risks', title: 'Risques', modifier: 'risks' },
+  { key: 'notRecommendedFor', title: 'Déconseillé pour', modifier: 'not-recommended' },
+] as const;
+
 interface LocationState {
   from?: 'results' | 'catalogue';
   search?: string;
@@ -82,64 +89,24 @@ export function ProcessDetail() {
           </div>
 
           <div className="process-details__section process-details__section--context">
-            {details.advantages.length > 0 && (
-              <div className="process-details__context-block">
-                <h3 className="process-details__context-title process-details__context-title--advantages">
-                  Avantages
-                </h3>
-                <ul className="process-details__context-list">
-                  {details.advantages.map((item, index) => (
-                    <li key={index} className="process-details__context-item">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {details.suitedFor.length > 0 && (
-              <div className="process-details__context-block">
-                <h3 className="process-details__context-title process-details__context-title--suited">
-                  Adapté
-                </h3>
-                <ul className="process-details__context-list">
-                  {details.suitedFor.map((item, index) => (
-                    <li key={index} className="process-details__context-item">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {details.risks.length > 0 && (
-              <div className="process-details__context-block">
-                <h3 className="process-details__context-title process-details__context-title--risks">
-                  Risques
-                </h3>
-                <ul className="process-details__context-list">
-                  {details.risks.map((item, index) => (
-                    <li key={index} className="process-details__context-item">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {details.notRecommendedFor.length > 0 && (
-              <div className="process-details__context-block">
-                <h3 className="process-details__context-title process-details__context-title--not-recommended">
-                  Déconseillé pour
-                </h3>
-                <ul className="process-details__context-list">
-                  {details.notRecommendedFor.map((item, index) => (
-                    <li key={index} className="process-details__context-item">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {CONTEXT_SECTIONS.map(
+              ({ key, title, modifier }) =>
+                details[key].length > 0 && (
+                  <div key={key} className="process-details__context-block">
+                    <h3
+                      className={`process-details__context-title process-details__context-title--${modifier}`}
+                    >
+                      {title}
+                    </h3>
+                    <ul className="process-details__context-list">
+                      {details[key].map((item, index) => (
+                        <li key={index} className="process-details__context-item">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
             )}
           </div>
         </div>
