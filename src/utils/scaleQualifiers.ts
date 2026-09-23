@@ -10,12 +10,9 @@ export function convertToTenScale(value: number): number {
 /**
  * Gets the range of positions (1-10) that should be colored for a given process value
  */
-export function getScalePositions(value: ProcessValue): {
-  primary: number[]; // Dark blue positions
-  secondary: number[]; // Light blue positions
-} {
+export function getScalePositions(value: ProcessValue): number[] {
   if (value === '*') {
-    return { primary: [], secondary: [] };
+    return [];
   }
 
   if (Array.isArray(value)) {
@@ -30,13 +27,12 @@ export function getScalePositions(value: ProcessValue): {
       primary.push(i);
     }
 
-    // For now, no secondary range (can be extended later if needed)
-    return { primary, secondary: [] };
+    return primary;
   }
 
   // Single value
   const position = Math.round(convertToTenScale(value));
-  return { primary: [position], secondary: [] };
+  return [position];
 }
 
 export const SCALE_LABELS: Record<CriterionId, string> = {

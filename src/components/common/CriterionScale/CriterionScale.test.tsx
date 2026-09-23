@@ -21,9 +21,8 @@ describe('CriterionScale', () => {
     // Value 3 * 2 = position 6 should be primary
     expect(squares[5]).toHaveClass('criterion-scale__square--primary');
 
-    // Other squares should not be primary or secondary
+    // Other squares should not be primary
     expect(squares[0]).not.toHaveClass('criterion-scale__square--primary');
-    expect(squares[0]).not.toHaveClass('criterion-scale__square--secondary');
   });
 
   it('colors squares correctly for range', () => {

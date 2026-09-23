@@ -27,7 +27,7 @@ export function CriterionScale({ criterionId, value }: CriterionScaleProps) {
     );
   }
 
-  const { primary, secondary } = getScalePositions(value);
+  const primary = getScalePositions(value);
 
   // Render 10 squares
   const squares = [];
@@ -36,8 +36,6 @@ export function CriterionScale({ criterionId, value }: CriterionScaleProps) {
 
     if (primary.includes(i)) {
       className += ' criterion-scale__square--primary';
-    } else if (secondary.includes(i)) {
-      className += ' criterion-scale__square--secondary';
     }
 
     squares.push(<div key={i} className={className} aria-hidden="true" />);
